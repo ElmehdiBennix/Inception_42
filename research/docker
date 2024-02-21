@@ -1,0 +1,16 @@
+--> Docker :
+    docker makes dev software mush easy to manage it solves it runs on my machine and that is usualy caused because of
+diffrant env and versions or dependencys the program needs to work maybe my code needs an
+old version of python to work and i got the latest one that might introduce some problems 
+of my program thats where docker comes in (lets just say it shipes ur machine every where so it could run no matter what)
+    the way it solves that problem by using whats called containers to run application in isolated environment in ur computer
+
+-> lets give an example to explain the above :
+    lets say we have a specific application that require a specific version of python which has a future i needed to use
+and some environment and files setup for it to work also i need to share it to other computer and need it to work
+usualy i need to go and setup each computer dev env alone for it to work and that will take alot of time to do and
+might introduce problems if the app has too mush dependencys to manage 
+
+# thats where docker comes and solves that problem by making containers that has every things the application needs to run
+correctly and it run in isolation away from any other proceess the only thing u need on ur computer is docker to manage
+them
