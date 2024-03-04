@@ -14,4 +14,5 @@ RUN mkdir -p /var/run/mysqld && chown -R mysql /var/run/mysqld && chmod -R 777 /
 
 EXPOSE 3309
 
+# CMD ["bash"]
 # CMD [ "./script.sh" ]

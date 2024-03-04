@@ -4,15 +4,15 @@ services:
   database:
     container_name: mariadb
     build: ./requirements/mariadb/.
-    networks:
-      - inception_network
     # volumes:
     #   # - database:containerPath:ro
     env_file:
       - .env
-    restart: always
     tty: true
-    interactive: true
+    stdin_open: true
+    networks:
+      - inception_network
+    restart: always
   # web_serv:
   #   container_name: nginx
   #   build: ./requirements/nginx/.
