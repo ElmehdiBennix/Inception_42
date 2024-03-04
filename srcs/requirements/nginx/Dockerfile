@@ -8,4 +8,4 @@ RUN apt update && apt upgrade -y
 
 COPY . .
 
-CMD [ "bash" ]
+# CMD [ "bash" ]

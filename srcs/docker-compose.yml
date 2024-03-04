@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  database:
+    container_name: mariadb
+    build: ./requirements/mariadb/.
+    networks:
+      - inception_network
+    # volumes:
+    #   # - database:containerPath:ro
+    env_file:
+      - .env
+    restart: always
+    tty: true
+    interactive: true
+  # web_serv:
+  #   container_name: nginx
+  #   build: ./requirements/nginx/.
+  #   depends_on:
+  #     - wordpress
+  #   ports:
+  #     - "443:443"
+  #   networks:
+  #     - inception_network
+  #   volumes:
+  #     # - wordpress:containerPath:ro
+  #   env_file:
+  #     - .env
+  #   restart: always
+
+  # wordpress:
+  #   container_name: wordpress
+  #   build: ./requirements/wordpress/.
+  #   depends_on:
+  #     - database
+  #   networks:
+  #     - inception_network
+  #   volumes:
+  #     # - wordpress:containerPath:ro
+  #   env_file:
+  #     - .env
+  #   restart: always  # restart all services if one failed
+
+
+networks:
+  inception_network:
+
+# volumes:
+#   wordpress:
+#     name:
+#   database:
+#     name:
+
