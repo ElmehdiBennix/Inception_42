@@ -17,19 +17,23 @@ down:
 debug:
 
 
-ps:
-	docker ps --all
+list:
+	@echo "            ___________IMAGES___________            "
+	docker images -a
+	@echo "            _________CONTAINERS_________            "
+	docker ps -a
 
 volumes:
 	docker volume ls
 
 clean :
-	docker system prune
+	docker system prune -af
 
+#problem
 fclean : clean
 	docker stop $(docker ps -aq)
 	docker rm $(docker ps -aq)
-	docker rmi $(docker images -q)
+	docker rmi $(docker images -aq)
 	docker volume rm $(docker volume ls -q)
 	docker network rm $(docker network ls -q)
 # docker-compose down

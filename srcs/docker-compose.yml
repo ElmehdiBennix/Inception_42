@@ -10,6 +10,7 @@ volumes:
 services:
   database:
     build: ./requirements/mariadb/.
+    image: maria:v1
     container_name: mariadb
     env_file:
       - .env
