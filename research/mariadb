@@ -23,3 +23,8 @@ MariaDB supports replication, which is the process of copying data from one Mari
 
 6. Security
 MariaDB includes features for securing data, including SSL/TLS for encrypted connections, user authentication, and access control.
+
+
+
+in MariaDB, when you connect to the database without specifying a user, and assuming you're using socket authentication (the default method on many systems), the database server attempts to authenticate you based on the operating system user that owns the process. This method is known as "socket authentication" or "Unix socket authentication."
+

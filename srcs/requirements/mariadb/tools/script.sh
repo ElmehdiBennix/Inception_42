@@ -1,10 +1,12 @@
 #!/bin/bash
 
-service mariadb stop
 
-sleep 4
 
-mysql_secure_installation
+# service mariadb stop
+
+# sleep 4
+
+# mysql_secure_installation
 
 # Set a predefined root password
 
