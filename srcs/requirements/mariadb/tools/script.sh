@@ -1,14 +1,33 @@
 #!/bin/bash
 
-mysql_install_db
+service mariadb stop
 
-mysqld_safe 
+sleep 4
 
-sleep 5
+mysql_secure_installation
 
-echo  "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_ROOT_USER'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';" \
-     "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';" "FLUSH PRIVILEGES;" | mysql -u root -p${MYSQL_ROOT_PASSWORD}
+# Set a predefined root password
 
-mysqladmin shutdown -p${MYSQL_ROOT_PASSWORD}
+# # Set the root password
+# mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';"
 
-mysqld_safe
+# # Remove anonymous users
+# mysql -e "DELETE FROM mysql.user WHERE User='';"
+# mysql -e "FLUSH PRIVILEGES;"
+
+# # Disallow remote root login
+# mysql -e "UPDATE mysql.user SET Host='localhost' WHERE User='root';"
+# mysql -e "FLUSH PRIVILEGES;"
+
+# # Remove the test database
+# mysql -e "DROP DATABASE IF EXISTS test;"
+
+# # Reload privileges
+# mysql -e "FLUSH PRIVILEGES;"
+
+# # Remove the anonymous users table
+# mysql -e "DROP TABLE IF EXISTS mysql.user;"
+
+# echo "mysql_secure_installation script completed."
+
+# mysql

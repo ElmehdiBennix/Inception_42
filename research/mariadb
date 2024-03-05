@@ -1,0 +1,25 @@
+MariaDB is an open-source relational database management system (RDBMS) that is a fork of the MySQL database. It was created by the original developers of MySQL in 2009 after concerns over the acquisition of MySQL by Oracle Corporation. MariaDB is designed to maintain high compatibility with MySQL, ensuring a drop-in replacement capability with library binary parity and exact matching with MySQL APIs and commands. This compatibility allows users to switch to MariaDB without changing applications that previously used MySQL.
+
+How MariaDB Works
+MariaDB operates on a client-server model, similar to MySQL. It uses Structured Query Language (SQL) for managing and manipulating data. Here's a high-level overview of how MariaDB works:
+
+1. Server and Client
+Server: The MariaDB server runs on a host machine and listens for connections from clients. It manages the database, handles queries, and ensures data integrity.
+Client: Clients can be applications, command-line interfaces, or other servers that connect to the MariaDB server to perform database operations.
+2. Storage Engines
+MariaDB supports multiple storage engines, each optimized for different types of workloads. The storage engine is responsible for storing and retrieving data. Common storage engines include InnoDB, MyISAM, and Memory. Each engine has its own set of features and performance characteristics.
+
+3. Query Processing
+When a client sends a query to the MariaDB server, the server processes the query in several steps:
+
+Parsing: The server parses the SQL query to understand what operation is being requested.
+Optimization: The server's query optimizer determines the most efficient way to execute the query. This involves choosing the best indexes to use, the order in which to join tables, and other optimizations.
+Execution: The server executes the query. This involves reading data from tables, applying any necessary transformations, and returning the results to the client.
+4. Transactions
+MariaDB supports transactions, which are a series of operations performed as a single logical unit of work. Transactions ensure data integrity and consistency. They can be committed (all changes are saved) or rolled back (all changes are undone).
+
+5. Replication
+MariaDB supports replication, which is the process of copying data from one MariaDB server to another. Replication is used to distribute data across multiple servers, improving performance and availability.
+
+6. Security
+MariaDB includes features for securing data, including SSL/TLS for encrypted connections, user authentication, and access control.
