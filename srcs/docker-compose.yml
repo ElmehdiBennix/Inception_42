@@ -1,7 +1,7 @@
 version: '3.8'
 
-networks:
-  docker_network:
+# networks:
+#   docker_network:
 
 volumes:
   WordPress:
@@ -16,8 +16,10 @@ services:
       - .env
     volumes:
       - DataBase:/var/lib/mysql:rw
-    networks:
-      - docker_network
+    ports:
+      - "3309:3309"
+    # networks:
+    #   - docker_network
     restart: always
     # tty: true
     # stdin_open: true

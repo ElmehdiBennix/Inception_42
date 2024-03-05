@@ -13,4 +13,4 @@ COPY . .
 
 # Create the log directory
 
-# CMD ["sh", "./tools/script.sh"]
+CMD ["bash"]
