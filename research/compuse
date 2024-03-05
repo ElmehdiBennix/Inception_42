@@ -1,1 +1,35 @@
-ds
+    # Docker Compose is a tool for defining and running multi-container Docker applications. It uses YAML files to configure the application's services and performs the creation and start-up process of all the containers with a single command. Here's a comprehensive list of Docker Compose commands you might find useful:
+
+- Docker Compose Commands :
+---------------------------
+
+ * docker-compose up: Starts and runs the entire app. it builds the image if it dosent exist or   
+                      updates it if changes are made to it
+ * docker-compose down: Stops and removes containers, networks, optionally : volumes, and images
+                        created by up.
+                    --rmi all or "image name" / to remove all images built my compose 
+                    --volumes or -v / removes the volumes of the container
+ * <!-- docker-compose build: Builds or rebuilds services. -->
+ * docker-compose pull: Pulls images for services.
+ * docker-compose push: Pushes images for services to a Docker registry.
+ * docker-compose logs: Shows logs from services.
+ * docker-compose ps: Lists containers.
+ * docker-compose start: Starts existing containers for a service.
+ * docker-compose stop: Stops running containers without removing them.
+ * docker-compose restart: Restarts services.
+ * docker-compose rm: Removes stopped service containers.
+ * docker-compose scale: Scales services.
+ * docker-compose pause: Pauses services.
+ * docker-compose unpause: Unpauses services.
+ * <!-- docker-compose create: Creates containers for a service. -->
+ * docker-compose kill: Forces running containers to stop.
+ * docker-compose config: Validates and displays the Compose file.
+ * <!-- docker-compose version: Shows the Docker Compose version information. -->
+ * <!-- docker-compose convert: Converts the Compose file to another format (e.g., Docker Swarm). -->
+ * docker-compose exec: Executes a command in a running container.
+ * docker-compose run: Runs a one-time command against a service.
+ * docker-compose top: Shows the running processes in a container.
+ * docker-compose events: Shows real-time events from containers.
+ * docker-compose port: Shows the public port for a port binding.
+ * docker-compose images: Shows images used by services.
+ 
