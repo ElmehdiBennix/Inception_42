@@ -1,18 +1,26 @@
 version: '3.8'
 
+networks:
+  docker_network:
+
+volumes:
+  WordPress:
+  DataBase:
+
 services:
   database:
-    container_name: mariadb
     build: ./requirements/mariadb/.
-    # volumes:
-    #   # - database:containerPath:ro
+    container_name: mariadb
     env_file:
       - .env
-    tty: true
-    stdin_open: true
+    volumes:
+      - DataBase:/var/lib/mysql:rw
     networks:
-      - inception_network
+      - docker_network
     restart: always
+    # tty: true
+    # stdin_open: true
+
   # web_serv:
   #   container_name: nginx
   #   build: ./requirements/nginx/.
@@ -21,7 +29,7 @@ services:
   #   ports:
   #     - "443:443"
   #   networks:
-  #     - inception_network
+  #     - docker_network
   #   volumes:
   #     # - wordpress:containerPath:ro
   #   env_file:
@@ -34,20 +42,9 @@ services:
   #   depends_on:
   #     - database
   #   networks:
-  #     - inception_network
+  #     - docker_network
   #   volumes:
   #     # - wordpress:containerPath:ro
   #   env_file:
   #     - .env
   #   restart: always  # restart all services if one failed
-
-
-networks:
-  inception_network:
-
-# volumes:
-#   wordpress:
-#     name:
-#   database:
-#     name:
-
