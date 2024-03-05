@@ -3,10 +3,7 @@
 
 
 
-all: run
-
-run:
-
+all: up
 
 up:
 	docker-compose up
@@ -19,24 +16,27 @@ debug:
 
 list:
 	@echo "            ___________IMAGES___________            "
-	docker images -a
+	docker images
 	@echo "            _________CONTAINERS_________            "
-	docker ps -a
+	docker ps
 
-volumes:
+volume:
 	docker volume ls
+
+network:
+	docker network ls
 
 clean :
 	docker system prune -af
 
 #problem
-fclean : clean
-	docker stop $(docker ps -aq)
-	docker rm $(docker ps -aq)
-	docker rmi $(docker images -aq)
-	docker volume rm $(docker volume ls -q)
-	docker network rm $(docker network ls -q)
-# docker-compose down
+fclean:
+	@echo "Cleaning Docker resources..."
+	docker stop $$(docker ps -a -q) || true
+	docker rm $$(docker ps -a -q) || true
+	docker rmi $$(docker images -q) || true
+	docker network prune -f
+	docker volume prune -f
 
 re: fclean all
 
