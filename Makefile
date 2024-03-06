@@ -28,15 +28,14 @@ network:
 
 clean :
 	docker system prune -af
+	docker volume prune -af
+	docker network prune -f
 
-#problem
 fclean:
 	@echo "Cleaning Docker resources..."
 	docker stop $$(docker ps -a -q) || true
 	docker rm $$(docker ps -a -q) || true
 	docker rmi $$(docker images -q) || true
-	docker network prune -f
-	docker volume prune -f
 
 re: fclean all
 
