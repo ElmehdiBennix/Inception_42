@@ -1,15 +1,20 @@
 version: '3.8'
 
-# networks:
-#   docker_network:
+networks:
+  docker_network:
+    name: inception
 
 volumes:
   WordPress:
+    name: Wordpress
   DataBase:
+    name: database
 
 services:
   database:
-    build: ./requirements/mariadb/.
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
     image: maria:v1
     container_name: mariadb
     env_file:
@@ -18,11 +23,10 @@ services:
       - DataBase:/var/lib/mysql:rw
     ports:
       - "3309:3309"
-    # networks:
-    #   - docker_network
+    networks:
+      - docker_network
     restart: always
-    # tty: true
-    # stdin_open: true
+        
 
   # web_serv:
   #   container_name: nginx
