@@ -6,16 +6,17 @@ mysql -V
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 #add data base location to mariadb my.cnf file to specify the mounted volume
-
+echo -e "[mysqld]\ndatadir=/var/mysql" >> /etc/mysql/my.cnf
 
 # Start MariaDB service
-    # mysqld_safe  & or 
-service mariadb start
+mysqld_safe  &
+# service mariadb start
 
 # Wait for MariaDB to start
-sleep 5
+sleep 10
 
 # Run mysql_secure_install script
+# add a reltaive path
 ./tools/install.exp
 
 # Create database, grant privileges, and alter root password
@@ -29,3 +30,6 @@ FLUSH PRIVILEGES;"
 service mariadb stop
 
 mysqld_safe
+
+
+#maybe a problem with chmod or chown access right verify 
