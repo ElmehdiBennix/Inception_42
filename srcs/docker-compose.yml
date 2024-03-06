@@ -20,7 +20,7 @@ services:
     env_file:
       - .env
     volumes:
-      - DataBase:/var/lib/mysql:rw
+      - DataBase:/var/mysql/:rw
     ports:
       - "3309:3309"
     networks:

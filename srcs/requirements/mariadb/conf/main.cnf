@@ -1,7 +1,2 @@
 [mysqld]
-datadir=/var/lib/mysql
-socket=/var/run/mysqld/mysqld.sock
-
-[mysqld_safe]
-log-error=/var/log/mysql/error.log
-pid-file=/var/run/mysqld/mysqld.pid
+datadir=/var/mysql

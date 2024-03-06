@@ -1,11 +1,7 @@
 
 FROM debian:stable
 
-RUN apt-get update && apt-get install apt-utils
-
-RUN apt-get install mariadb-server expect -y
-
-# RUN service mariadb stop
+RUN apt-get update && apt-get install mariadb-server expect -y
 
 EXPOSE 3309
 
