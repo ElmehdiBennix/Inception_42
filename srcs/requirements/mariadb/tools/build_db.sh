@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
+
 service mariadb start
 
 # tape fix ping the database after to check if its up or not
