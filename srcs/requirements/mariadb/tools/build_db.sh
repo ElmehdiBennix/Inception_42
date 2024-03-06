@@ -10,5 +10,5 @@ sleep 4
 # 	echo "database already exists !!! we gone use it ."
 # else
 
-sh ./tools/install.exp
+./tools/install.exp
 

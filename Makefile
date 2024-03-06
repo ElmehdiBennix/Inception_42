@@ -6,7 +6,9 @@
 all: up
 
 up:
-	docker-compose up
+	docker-compose up --build 
+# default docker-compose up builds image if it dosent exist if i made changes to it
+#it dosnt rebuild it
 
 down:
 	docker-compose down

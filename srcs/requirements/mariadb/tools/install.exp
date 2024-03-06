@@ -1,32 +1,34 @@
 #!/usr/bin/expect -f
 
-set timeout -1
+set timeout 10
 
 spawn mysql_secure_installation
 
 expect "Enter current password for root (enter for none):"
 send "\r"
 
-expect "Switch to unix_socket authentication [Y/n] "
+expect "Switch to unix_socket authentication"
 send "y\r"
 
-expect "Change the root password? [Y/n]"
+expect "Change the root password?"
 send "n\r"
 
-expect "New password:"
-send "1234\r"
+# expect "New password:"
+# send "1234\r"
 
-expect "Re-enter new password:"
-send "1234\r"
+# expect "Re-enter new password:"
+# send "1234\r"
 
-expect "Remove anonymous users? [Y/n]"
+expect "Remove anonymous users? "
 send "y\r"
 
-expect "Disallow root login remotely? [Y/n]"
+expect "Disallow root login remotely?"
 send "y\r"
 
-expect "Remove test database and access to it? [Y/n]"
+expect "Remove test database and access to it?"
 send "y\r"
 
-expect "Reload privilege tables now? [Y/n]"
+expect "Reload privilege tables now?"
 send "y\r"
+
+expect "Thanks for using MariaDB!"
