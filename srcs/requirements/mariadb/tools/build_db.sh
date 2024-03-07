@@ -10,16 +10,19 @@ sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
 #add data base location to mariadb my.cnf file to specify the mounted volume
 echo -e "[mysqld]\ndatadir=/var/mysql" >> /etc/mysql/my.cnf
 
-# Replace /var/mysql with your actual data directory path
+# give rights to mysql user to acces the database for the demeon to start
+chown -R mysql:mysql $DATA_DIR
+chmod -R 755 $DATA_DIR
 
 # Check if the data directory exists and is not empty
 if [ ! -d "$DATA_DIR" ] || [ -z "$(ls -A $DATA_DIR)" ]; then
     echo "Data directory does not exist or is empty. Initializing database..."
-    mysql_install_db
+    mysql_install_db --user=mysql --datadir=$DATA_DIR
     echo "Database initialized."
 else
     echo "Data directory already exists and is not empty. Skipping initialization."
 fi
+
 
 # Start MariaDB service in background
 # service mariadb start
