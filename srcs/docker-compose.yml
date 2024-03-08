@@ -21,11 +21,11 @@ services:
       - .env
     volumes:
       - DataBase:/var/lib/mysql/:rw
-    ports:
-      - "3309:3309"
     networks:
       - docker_network
-    # restart: always
+    restart: always
+    # ports:
+    #   - "3309:3309"
         
 
   # web_serv:
@@ -43,15 +43,21 @@ services:
   #     - .env
   #   restart: always
 
-  # wordpress:
-  #   container_name: wordpress
-  #   build: ./requirements/wordpress/.
-  #   depends_on:
-  #     - database
-  #   networks:
-  #     - docker_network
-  #   volumes:
-  #     # - wordpress:containerPath:ro
-  #   env_file:
-  #     - .env
-  #   restart: always  # restart all services if one failed
+  wordpress:
+    depends_on:
+      - database
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    image: wordpress
+    container_name: wordpress
+    env_file:
+      - .env
+    volumes:
+      - WordPress:/wordpress/volume_bruh:rw
+    #testing now 
+    networks:
+      - docker_network
+    restart: always
+
+# restart all services if one failed
