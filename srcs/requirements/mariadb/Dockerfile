@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install mariadb-server expect -y
 
 EXPOSE 3309
 
-WORKDIR /mariadb
+WORKDIR /task_file
 
 COPY . .
 

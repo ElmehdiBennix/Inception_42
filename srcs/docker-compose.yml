@@ -20,12 +20,12 @@ services:
     env_file:
       - .env
     volumes:
-      - DataBase:/var/mysql/:rw
+      - DataBase:/var/lib/mysql/:rw
     ports:
       - "3309:3309"
     networks:
       - docker_network
-    restart: always
+    # restart: always
         
 
   # web_serv:
