@@ -56,3 +56,5 @@ mysqladmin -u root -p$MARIADB_ROOT_PASSWORD shutdown
 # mysqladmin -u root -p$MARIADB_ROOT_PASSWORD shutdown
 
 mysqld_safe
+
+#working lets go
