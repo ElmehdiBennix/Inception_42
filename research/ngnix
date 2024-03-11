@@ -1,0 +1,67 @@
+Nginx is a "web server" that can also be used as a reverse proxy, load balancer,
+mail proxy and HTTP cache. The software was created by Russian developer Igor Sysoev
+and publicly released in 2004. Nginx is free and open-source software. A large fraction of
+web servers use Nginx, often as a load balancer
+
+when u browse a website using a browser normaly u put a website link in the search bar making a request to a server that procceses ur request and serves u back a response what ever that could be as an example web content that could be rendered in ur browser
+
+normally using an aproach like a client connection throught network to a server
+directly on a port is normal for minimal traffic
+where problems comes into place is where we have lots of client making a request to 
+that server depending on the server capabilities it will reach a bottle neck
+where too many request are being made to it to serv content intoducing latency
+or server down time
+to fix this problem we need to scale our server architecture which will intoduce another
+problem which is which server am i gonna connet to when i wanna make a request
+what we want is a weight destribution between servers depending on the load comming to them.
+this is where nginx comes to place it acts as a load balancer it sits between the user and the server or servers and it forwards the request to the availble server gets the response and then serves it back to the user depending on the load it acts as a reverse proxy to the
+availble server this is very good for scaling an app to support big numbers of users
+
+A reverse proxy is a server that sits in front of web servers and forwards client (e.g. web browser) requests to those web servers
+
+another usefull future of nginx is encription instead of having encription and decription process running in every single server it can be done in ngnix server which makes it easy
+and efficient
+
+
+nginx.conf :
+------------
+
+http {
+
+    ------------------> # as for the types there are several supported types which can be found in
+                        mime.types file and for the second value in the extension of the file .css
+                        as an example
+
+    type {
+        test/css    css;
+        test/html   html;
+    } 
+    # or just include all types / include mime.types
+
+    ------------------> #
+
+    server {
+        listen 443; # listen on a port
+        root    /path/to/my_site/www; # server the index.html file located at that root dir
+
+        location /example {     # this will apand the /example to root giving us 
+            root /path/to/my_site/www;      # /path/to/my_site/www/example serving the index inside 
+                                            # of it
+        }
+
+        location /smthing {    
+            alias /path/to/my_site/www/example;     # this will alias the root/smthing to example dir
+                                                    # which will bring the index inside of it
+        }
+
+
+    }
+}
+
+https://nginx.org/en/docs/
+
+https://docs.nginx.com/
+
+https://www.youtube.com/watch?v=7VAI73roXaY
+
+
