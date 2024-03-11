@@ -14,3 +14,5 @@ might introduce problems if the app has too mush dependencys to manage
 # thats where docker comes and solves that problem by making containers that has every things the application needs to run
 correctly and it run in isolation away from any other proceess the only thing u need on ur computer is docker to manage
 them
+
+
