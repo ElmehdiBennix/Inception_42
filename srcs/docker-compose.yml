@@ -15,7 +15,7 @@ services:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    image: maria:v1
+    image: maria:v1-working
     container_name: mariadb
     env_file:
       - .env
@@ -26,38 +26,40 @@ services:
     restart: always
     # ports:
     #   - "3309:3309"
-        
 
-  # web_serv:
-  #   container_name: nginx
-  #   build: ./requirements/nginx/.
-  #   depends_on:
-  #     - wordpress
-  #   ports:
-  #     - "443:443"
-  #   networks:
-  #     - docker_network
-  #   volumes:
-  #     # - wordpress:containerPath:ro
-  #   env_file:
-  #     - .env
-  #   restart: always
-
-  wordpress:
-    depends_on:
-      - database
+  web_serv:
+    # depends_on:
+    #   - wordpress
     build:
-      context: ./requirements/wordpress
+      context: ./requirements/nginx
       dockerfile: Dockerfile
-    image: wordpress
-    container_name: wordpress
+    image: nginx:v1
+    container_name: nginx
     env_file:
       - .env
     volumes:
-      - WordPress:/wordpress/volume_bruh:rw
-    #testing now 
+      - WordPress:/wordpress:rw
     networks:
       - docker_network
+    ports:
+      - "80:80"
     restart: always
+
+  # wordpress:
+  #   depends_on:
+  #     - database
+  #   build:
+  #     context: ./requirements/wordpress
+  #     dockerfile: Dockerfile
+  #   image: wordpress
+  #   container_name: wordpress
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - WordPress:/wordpress/volume_bruh:rw
+  #   #testing now 
+  #   networks:
+  #     - docker_network
+  #   restart: always
 
 # restart all services if one failed

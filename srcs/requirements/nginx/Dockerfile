@@ -1,11 +1,12 @@
 
-
 FROM debian:stable
 
-WORKDIR /test_env
+RUN apt-get update && apt-get install nginx -y
 
-RUN apt update && apt upgrade -y
+# EXPOSE 443
+
+WORKDIR /nginx
 
 COPY . .
 
-# CMD [ "bash" ]
+CMD [ "bash" ]
