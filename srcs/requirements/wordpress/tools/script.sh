@@ -6,6 +6,6 @@ wp config create --dbname=$MARIADB_DATABASE --dbuser=$MARIADB_USER --dbpass=$MAR
 
 wp core install --url=ebennix.42.fr --title=ebennix.42.fr --admin_user=$MARIADB_USER --admin_password=$MARIADB_PASSWORD --admin_email=bennixmehdi@gmail.com --allow-root
 
-wp user create ebennix info@gmail.com --role=GOD --user_pass=$MARIADB_PASSWORD --allow-root
+wp user create ebennix info@gmail.com --role=author --user_pass=$MARIADB_PASSWORD --allow-root
 
-/usr/sbin/php-fpm7.4 -F
+/usr/sbin/php-fpm8.2 -F
