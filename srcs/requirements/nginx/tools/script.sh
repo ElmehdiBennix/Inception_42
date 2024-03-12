@@ -8,4 +8,4 @@ rm -rf /etc/nginx/sites-available/* /etc/nginx/sites-enabled/*
 
 mv ./conf/nginx.conf /etc/nginx
 
-
+nginx -g -daemon off
