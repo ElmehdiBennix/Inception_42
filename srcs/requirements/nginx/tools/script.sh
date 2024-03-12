@@ -6,6 +6,6 @@
 
 rm -rf /etc/nginx/sites-available/* /etc/nginx/sites-enabled/* /etc/nginx/ginx.conf
 
-mv ./conf/nginx.conf /etc/nginx
+mv ../conf/nginx.conf /etc/nginx
 
 nginx -g 'daemon off;'
