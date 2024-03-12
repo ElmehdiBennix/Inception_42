@@ -1,11 +1,11 @@
 #!/bin/bash
 
-nginx -v
+# nginx -v
 
-openssl x509 -in /etc/ssl/certs/nginx-selfsigned.crt -text -noout
+# openssl x509 -in /etc/ssl/certs/nginx-selfsigned.crt -text -noout
 
-rm -rf /etc/nginx/sites-available/* /etc/nginx/sites-enabled/*
+rm -rf /etc/nginx/sites-available/* /etc/nginx/sites-enabled/* /etc/nginx/ginx.conf
 
 mv ./conf/nginx.conf /etc/nginx
 
-nginx -g -daemon off
+nginx -g 'daemon off;'
