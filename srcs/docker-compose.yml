@@ -27,7 +27,7 @@ services:
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
-    image: nginx:v1-working
+    image: nginx:v1
     container_name: nginx
     env_file:
       - .env
