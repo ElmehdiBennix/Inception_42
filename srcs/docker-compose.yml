@@ -5,13 +5,23 @@ networks:
     name: inception
 
 volumes:
-  WordPress:
+  wordpress:
     name: Wordpress
-  DataBase:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ebennix/data/wordpress
+      o: bind
+  database:
     name: database
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ebennix/data/mysql
+      o: bind
 
 services:
-  database:
+  mariadb:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
@@ -20,25 +30,23 @@ services:
     env_file:
       - .env
     volumes:
-      - DataBase:/var/lib/mysql/:rw
+      - database:/var/lib/mysql/:rw
     networks:
       - docker_network
     restart: always
-    # ports:
-    #   - "3309:3309"
 
-  web_serv:
+  nginx:
     # depends_on:
     #   - wordpress
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
-    image: nginx:v1
+    image: nginx:v1-working
     container_name: nginx
     env_file:
       - .env
     volumes:
-      - WordPress:/wordpress:rw
+      - wordpress:/var/www/html:rw
     networks:
       - docker_network
     ports:
@@ -61,5 +69,3 @@ services:
   #   networks:
   #     - docker_network
   #   restart: always
-
-# restart all services if one failed
