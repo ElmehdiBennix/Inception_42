@@ -13,4 +13,4 @@ WORKDIR /nginx
 
 COPY . .
 
-CMD [ "bash" ]
+CMD [ "sh", "./tools/script.sh" ]
