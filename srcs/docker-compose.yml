@@ -59,7 +59,7 @@ services:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    image: maria:v1-working
+    image: maria:v1
     container_name: mariadb
     env_file:
       - .env
