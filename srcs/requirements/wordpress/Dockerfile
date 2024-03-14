@@ -10,10 +10,12 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 
 RUN sed -i "s|listen = /run/php/php8.2-fpm.sock|listen = 9000|g" /etc/php/8.2/fpm/pool.d/www.conf
 
-COPY . /var/www/html
+# RUN mkdir /execute
+
+COPY ./tools/script.sh /execute/script.sh
 
 EXPOSE 9000
 
-RUN chmod +x /var/www/html/tools/script.sh
+RUN chmod +x /execute/script.sh
 
-CMD ["sh", "./tools/script.sh"]
+CMD ["sh", "/execute/script.sh"]

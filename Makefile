@@ -20,7 +20,7 @@ logs:
 	docker-compose -f $(COMPOSE_FILE) logs -f
 
 compose:
-	docker-compose -f $(COMPOSE_FILE) $(CAPUTRED_ARGS)
+	docker-compose -f $(COMPOSE_FILE) $(call CAPTURED_ARGS,compose)
 
 list:
 	@echo "            __________NETWORKS__________            \n"
@@ -46,7 +46,7 @@ del_volume_network :
 clean :
 	docker system prune -af
 
-fclean : del_volume_network clean
+fclean : del_containers del_volume_network clean
 
 re: fclean all
 
@@ -57,3 +57,6 @@ git:
 	git push
 
 .PHONY: up down logs compose list del_images del_containers clean fclean re git
+
+
+# make: *** [Makefile:23: compose] Error 137?
