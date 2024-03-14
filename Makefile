@@ -1,43 +1,44 @@
-# build using docker comnpose
 
 
-
+COMPOSE_FILE := ./srcs/docker-compose.yml
 
 all: up
 
 up:
-	docker-compose up --build 
-# default docker-compose up builds image if it dosent exist if i made changes to it
-#it dosnt rebuild it
+	docker-compose -f $(COMPOSE_FILE) up --build -d
+	$(MAKE) logs
 
 down:
-	docker-compose down
+	docker-compose -f $(COMPOSE_FILE) down
 
-debug:
-
+logs:
+	docker-compose -f $(COMPOSE_FILE) logs -f
 
 list:
-	@echo "            ___________IMAGES___________            "
-	docker images
-	@echo "            _________CONTAINERS_________            "
-	docker ps
+	@echo "            __________NETWORKS__________            \n"
+	@docker network ls
+	@echo "            ___________VOLUMES___________            \n"
+	@docker volume ls
+	@echo "            ___________IMAGES___________            \n"
+	@docker images
+	@echo "            _________CONTAINERS_________            \n"
+	@docker ps -a
 
-volume:
-	docker volume ls
+del_images :
+	docker rmi $$(docker images -aq)
 
-network:
-	docker network ls
+del_containers :
+	docker stop $$(docker ps -aq) || true
+	docker rm $$(docker ps -aq) || true
 
-clean :
-	docker system prune -af
+del_volume_network :
 	docker volume prune -af
 	docker network prune -f
 
-fclean:
-	@echo "Cleaning Docker resources..."
-	docker stop $$(docker ps -a -q) || true
-	docker rm $$(docker ps -a -q) || true
-	docker rmi $$(docker images -q) || true
+clean :
+	docker system prune -af
+
+fclean : del_volume_network clean
 
 re: fclean all
 
@@ -47,4 +48,4 @@ git:
 	git commit -m "push"
 	git push
 
-.PHONY:
+.PHONY: up down logs list del_images del_containers clean fclean re git
