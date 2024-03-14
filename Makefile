@@ -2,6 +2,8 @@
 
 COMPOSE_FILE := ./srcs/docker-compose.yml
 
+SER := service_name
+
 all: up
 
 up:
@@ -13,6 +15,9 @@ down:
 
 logs:
 	docker-compose -f $(COMPOSE_FILE) logs -f
+
+tty:
+	docker-compose -f $(COMPOSE_FILE) run $(filter-out $@,$(MAKECMDGOALS)) bash
 
 list:
 	@echo "            __________NETWORKS__________            \n"
