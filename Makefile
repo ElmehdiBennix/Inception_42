@@ -1,8 +1,11 @@
 
-
 COMPOSE_FILE := ./srcs/docker-compose.yml
 
 SER := service_name
+
+M := autopush
+
+CAPTURED_ARGS = $(filter-out $1,$(MAKECMDGOALS))
 
 all: up
 
@@ -16,8 +19,8 @@ down:
 logs:
 	docker-compose -f $(COMPOSE_FILE) logs -f
 
-tty:
-	docker-compose -f $(COMPOSE_FILE) run $(filter-out $@,$(MAKECMDGOALS)) bash
+compose:
+	docker-compose -f $(COMPOSE_FILE) $(CAPUTRED_ARGS)
 
 list:
 	@echo "            __________NETWORKS__________            \n"
@@ -50,7 +53,7 @@ re: fclean all
 git:
 	git add .
 	git status
-	git commit -m "push"
+	git commit -m $(M)
 	git push
 
-.PHONY: up down logs list del_images del_containers clean fclean re git
+.PHONY: up down logs compose list del_images del_containers clean fclean re git
