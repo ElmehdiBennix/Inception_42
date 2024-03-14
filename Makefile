@@ -17,7 +17,7 @@ down:
 	docker-compose -f $(COMPOSE_FILE) down
 
 logs:
-	docker-compose -f $(COMPOSE_FILE) logs -f
+	@docker-compose -f $(COMPOSE_FILE) logs -f
 
 compose:
 	docker-compose -f $(COMPOSE_FILE) $(call CAPTURED_ARGS,compose)
@@ -40,8 +40,9 @@ del_containers :
 	docker rm $$(docker ps -aq) || true
 
 del_volume_network :
-	docker volume prune -af
-	docker network prune -f
+	@docker volume prune -af
+	@docker network prune -f
+	@$(MAKE) list
 
 clean :
 	docker system prune -af

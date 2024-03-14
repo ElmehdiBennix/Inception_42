@@ -15,7 +15,9 @@ mysql -V
 # if [ ! -d "/var/mysql" ] || [ -z "$(ls -A /var/mysql)" ]; then
 #     echo "Data directory does not exist or is empty. Initializing database..."
 #     mysql_install_db --datadir=/var/mysql
+## Run mysql_secure_install script
 #     # ./tools/install.exp
+## add a reltaive path
 #     echo "Database initialized."
 # else
 #     echo "Data directory already exists and is not empty. Skipping initialization."
@@ -24,32 +26,26 @@ mysql -V
 
 # Start MariaDB service in background
 mysql_install_db
-mysqld_safe &
-# mysqld_safe &
 
+mysqld_safe &
+
+# Wait for MariaDB to start need a better way for this
 sleep 5
 
 # echo "________________________________\n\n"
 # service mariadb status
 # echo "\n\n________________________________\n"
 
-# Wait for MariaDB to start need a better way for this
-
-# Run mysql_secure_install script
-# add a reltaive path
-
 # Create database, grant privileges, and alter root password
-echo "CREATE DATABASE IF NOT EXISTS \`$MARIADB_DATABASE\`;\
-GRANT ALL ON \`$MARIADB_DATABASE\`.* TO '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';\
-ALTER USER 'root'@'localhost' IDENTIFIED BY '$MARIADB_ROOT_PASSWORD';\
-FLUSH PRIVILEGES;" | mysql -u root -p$MARIADB_ROOT_PASSWORD
-
-
-mysqladmin -u root -p$MARIADB_ROOT_PASSWORD shutdown
+echo "CREATE DATABASE IF NOT EXISTS $MARIADB_DATABASE;" \
+     "GRANT ALL ON $MARIADB_DATABASE.* TO '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';" \
+     "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}';" \
+     "FLUSH PRIVILEGES;" | mysql -u root -p${MARIADB_ROOT_PASSWORD}
 
 # Stop MariaDB service
+mysqladmin -u root -p${MARIADB_ROOT_PASSWORD} shutdown
 # sleep 5
+
 # service mariadb stop wont work 
-# mysqladmin -u root -p$MARIADB_ROOT_PASSWORD shutdown
 
 mysqld_safe
