@@ -32,7 +32,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wordpress:/var/www/html:rw
+      - wordpress:/var/www/html/wordpress:rw
     networks:
       - docker_network
     ports:
@@ -50,7 +50,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wordpress:/var/www/html:rw
+      - wordpress:/var/www/html/wordpress:rw
     networks:
       - docker_network
     restart: always
