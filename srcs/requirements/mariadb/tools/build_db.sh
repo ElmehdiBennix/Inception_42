@@ -1,11 +1,7 @@
 #!/bin/bash
 
-# DATA_DIR="/var/mysql"
-
 mysql -V
 
-# Bind address to 0.0.0.0 to allow connections from any IP address
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 #add data base location to mariadb my.cnf file to specify the mounted volume
 # echo -e "[mysqld]\ndatadir=/var/mysql" >> /etc/mysql/my.cnf
@@ -57,5 +53,3 @@ mysqladmin -u root -p$MARIADB_ROOT_PASSWORD shutdown
 # mysqladmin -u root -p$MARIADB_ROOT_PASSWORD shutdown
 
 mysqld_safe
-
-#working lets go need improvments tho
