@@ -1,7 +1,6 @@
 
 FROM debian:stable
 
-
 RUN apt-get update && apt-get install mariadb-server -y
 
 RUN mkdir -p /var/run/mysqld && chown -R mysql /var/run/mysqld && chmod 777 /var/run/mysqld
