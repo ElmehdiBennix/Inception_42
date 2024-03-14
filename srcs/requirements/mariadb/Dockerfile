@@ -1,17 +1,15 @@
 
 FROM debian:stable
 
-RUN apt-get update && apt-get install mariadb-server expect -y
+RUN apt-get update && apt-get install mariadb-server -y
+
+# Bind address to 0.0.0.0 to allow connections from any IP address
+RUN sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
+
+COPY ./tools/build_db.sh /init/build_db.sh
 
 EXPOSE 3309
 
-WORKDIR /task_file
+RUN chmod +x /init/build_db.sh
 
-COPY . .
-
-# Create the log directory
-# ENTRYPOINT [ "executable" ]
-
-RUN chmod +x ./tools/build_db.sh
-
-CMD ["sh","./tools/build_db.sh"]
+CMD ["sh", "/init/build_db.sh"]
