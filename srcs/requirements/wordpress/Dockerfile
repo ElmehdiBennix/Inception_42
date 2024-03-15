@@ -19,3 +19,5 @@ EXPOSE 9000
 RUN chmod +x /execute/script.sh
 
 CMD ["sh", "/execute/script.sh"]
+
+#entry point too and exec as php fast proccess manager

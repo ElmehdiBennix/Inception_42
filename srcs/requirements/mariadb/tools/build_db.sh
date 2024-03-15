@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mysql -V
+# mysql -V
 
 
 #add data base location to mariadb my.cnf file to specify the mounted volume
