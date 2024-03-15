@@ -9,7 +9,7 @@ CAPTURED_ARGS = $(filter-out $1,$(MAKECMDGOALS))
 
 all: up
 
-up:
+up: down
 	docker-compose -f $(COMPOSE_FILE) up --build -d
 	$(MAKE) logs
 
