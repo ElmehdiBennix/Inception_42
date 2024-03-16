@@ -30,12 +30,12 @@ mysql_install_db
 
 
 echo "starting mariadb service in the background\n"
-sleep 120
 mysqld_safe &
+echo "starting to sleep for the service to full start\n"
+sleep 4
 
 
 # Wait for MariaDB to start need a better way for this
-echo "starting to sleep for the service to full start\n"
 
 # echo "________________________________\n\n"
 # service mariadb status
