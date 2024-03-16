@@ -2,7 +2,7 @@ FROM debian:stable
 
 WORKDIR /var/www/html/wordpress
 
-RUN apt-get update && apt-get install curl php-mysql php8.2-fpm -y
+RUN apt-get update && apt-get install curl php-mysql php8.2-fpm mariadb-client -y
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
