@@ -3,7 +3,7 @@ FROM debian:stable
 
 RUN apt-get update && apt-get install mariadb-server -y
 
-RUN mkdir -p /var/run/mysqld && chown -R mysql /var/run/mysqld && chmod 777 /var/run/mysqld
+RUN mkdir -p /var/run/mysqld && chown -R mysql /var/run/mysqld && chmod 755 /var/run/mysqld
 
 # Bind address to 0.0.0.0 to allow connections from any IP address
 RUN sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf

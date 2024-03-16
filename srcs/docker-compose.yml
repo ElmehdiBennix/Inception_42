@@ -25,14 +25,14 @@ services:
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
-    image: nginx:v1
+    image: nginx:web_serv
     container_name: nginx
     depends_on:
       - wordpress
     env_file:
       - .env
     volumes:
-      - wordpress:/var/www/html/wordpress:rw
+      - wordpress:/var/www/html:rw
     networks:
       - docker_network
     ports:
@@ -43,14 +43,14 @@ services:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    image: wordpress
+    image: wordpress:web_site
     container_name: wordpress
     depends_on:
       - mariadb
     env_file:
       - .env
     volumes:
-      - wordpress:/var/www/html/wordpress:rw
+      - wordpress:/var/www/html:rw
     networks:
       - docker_network
     restart: always
@@ -59,7 +59,7 @@ services:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    image: maria:v1
+    image: maria:DB
     container_name: mariadb
     env_file:
       - .env

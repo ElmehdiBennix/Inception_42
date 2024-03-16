@@ -58,4 +58,4 @@ mysqladmin -u root -p${MARIADB_ROOT_PASSWORD} shutdown
 
 echo "exec mysqld_safe to check if the database has no harm and starting it as forground procces for the container\n"
 
-exec "!@"
+exec "$@"

@@ -1,6 +1,6 @@
 FROM debian:stable
 
-WORKDIR /var/www/html/wordpress
+WORKDIR /var/www/html
 
 RUN apt-get update && apt-get install curl php-mysql php8.2-fpm netcat-traditional -y
 
