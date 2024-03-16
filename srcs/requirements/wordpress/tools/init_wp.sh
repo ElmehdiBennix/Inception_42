@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sh /execute/sync.sh
+
 wp core download --allow-root
 echo "download finished \n"
 
@@ -13,4 +15,3 @@ wp user create ebennix info@gmail.com --role=author --user_pass=$MARIADB_PASSWOR
 echo "user create finished finished \n"
 
 echo "starting php fast procces manager \n"
-/usr/sbin/php-fpm8.2 -F
