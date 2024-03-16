@@ -25,23 +25,30 @@
 
 
 # Start MariaDB service in background
+echo "init data base if it dosnt exist\n"
 mysql_install_db
 
+
+echo "starting mariadb service in the background\n"
+sleep 120
 mysqld_safe &
 
+
 # Wait for MariaDB to start need a better way for this
-sleep 50
+echo "starting to sleep for the service to full start\n"
 
 # echo "________________________________\n\n"
 # service mariadb status
 # echo "\n\n________________________________\n"
 
+echo "passing rules to my sql to make database and user and alter root passord\n"
 # Create database, grant privileges, and alter root password
 echo "CREATE DATABASE IF NOT EXISTS $MARIADB_DATABASE;" \
      "GRANT ALL ON $MARIADB_DATABASE.* TO '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';" \
      "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}';" \
      "FLUSH PRIVILEGES;" | mysql -u root -p${MARIADB_ROOT_PASSWORD}
 
+echo "shutting down the mariadb service to start it in forground\n"
 # Stop MariaDB service
 mysqladmin -u root -p${MARIADB_ROOT_PASSWORD} shutdown
 # sleep 5
@@ -49,4 +56,5 @@ mysqladmin -u root -p${MARIADB_ROOT_PASSWORD} shutdown
 # service mariadb stop wont work 
 # echo true > ready.txt
 
+echo "exec mysqld_safe to check if the database has no harm and starting it as forground procces for the container\n"
 mysqld_safe
