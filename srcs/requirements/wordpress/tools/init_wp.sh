@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sleep 5
+
 sh /execute/sync.sh
 
 wp core download --allow-root
@@ -17,4 +19,4 @@ echo "user create finished finished \n"
 sed -i "s|listen = /run/php/php8.2-fpm.sock|listen = 9000|g" /etc/php/8.2/fpm/pool.d/www.conf
 
 echo "starting php fast procces manager \n"
-exec "!@"
+exec "$@"
