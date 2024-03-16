@@ -14,6 +14,6 @@ EXPOSE 3306
 
 RUN chmod +x /init/build_db.sh
 
-CMD ["sh", "/init/build_db.sh"]
+ENTRYPOINT ["sh", "/init/build_db.sh"]
 
-#TODO entry as exec for setup in script and arg as mysqld def
+CMD [ "mysqld_safe" ]

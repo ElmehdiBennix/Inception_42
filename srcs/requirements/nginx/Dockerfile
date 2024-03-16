@@ -1,7 +1,7 @@
 
 FROM debian:stable
 
-RUN apt-get update && apt-get install nginx openssl -y
+RUN apt-get update && apt-get install nginx openssl netcat-traditional -y
 
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -keyout /etc/ssl/private/nginx-selfsigned.key \
@@ -16,5 +16,7 @@ RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
 RUN chmod +r /etc/nginx/sites-available/nginx.conf
 
 EXPOSE 443
+
+ENTRYPOINT ["sh", "/execute/sync.sh"]
 
 CMD ["nginx", "-g", "daemon off;"]

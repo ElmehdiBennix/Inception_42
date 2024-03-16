@@ -14,4 +14,7 @@ echo "core install finished \n"
 wp user create ebennix info@gmail.com --role=author --user_pass=$MARIADB_PASSWORD --allow-root
 echo "user create finished finished \n"
 
+sed -i "s|listen = /run/php/php8.2-fpm.sock|listen = 9000|g" /etc/php/8.2/fpm/pool.d/www.conf
+
 echo "starting php fast procces manager \n"
+exec "!@"
