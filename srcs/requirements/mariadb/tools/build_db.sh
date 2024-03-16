@@ -30,7 +30,7 @@ mysql_install_db
 mysqld_safe &
 
 # Wait for MariaDB to start need a better way for this
-sleep 5
+sleep 50
 
 # echo "________________________________\n\n"
 # service mariadb status
@@ -47,5 +47,6 @@ mysqladmin -u root -p${MARIADB_ROOT_PASSWORD} shutdown
 # sleep 5
 
 # service mariadb stop wont work 
+# echo true > ready.txt
 
 mysqld_safe

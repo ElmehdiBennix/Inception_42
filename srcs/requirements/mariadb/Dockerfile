@@ -10,7 +10,7 @@ RUN sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 COPY ./tools/build_db.sh /init/build_db.sh
 
-EXPOSE 3309
+EXPOSE 3306
 
 RUN chmod +x /init/build_db.sh
 
