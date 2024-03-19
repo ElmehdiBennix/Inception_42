@@ -21,6 +21,20 @@ volumes:
     #   o: bind
 
 services:
+  ftp:
+    build:
+      context: ./requirements/bonus/ftp
+      dockerfile: Dockerfile
+    image: ftp:v1
+    container_name: ftp
+    # depends_on:
+    #   - wordpress
+    volumes:
+      - wordpress:/var/www/html:rw
+    networks:
+      - docker_network
+    restart: always
+
   nginx:
     build:
       context: ./requirements/nginx
@@ -68,3 +82,4 @@ services:
     networks:
       - docker_network
     restart: always
+
