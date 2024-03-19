@@ -4,4 +4,4 @@ WORKDIR /var/www/html
 
 RUN apt-get update
 
-COPY . /static_www
+COPY conf static_www
