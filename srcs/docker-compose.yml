@@ -21,14 +21,31 @@ volumes:
     #   o: bind
 
 services:
+  adminer:
+    build:
+      context: ./requirements/bonus/adminer
+      dockerfile: Dockerfile
+    image: adminer:v1
+    container_name: adminer
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress:/var/www/html:rw
+    # ports:
+    #   - 8080:8080
+    env_file:
+      - .env
+    networks:
+      - docker_network
+    restart: always
   ftp:
     build:
       context: ./requirements/bonus/ftp
       dockerfile: Dockerfile
     image: ftp:working
     container_name: ftp
-    # depends_on:
-    #   - wordpress
+    depends_on:
+      - wordpress
     ports:
       - "21:21"
       - "30000-30009:30000-30009"
@@ -57,6 +74,7 @@ services:
       - docker_network
     ports:
       - "443:443"
+      - "80:80"
     restart: always
 
   wordpress:

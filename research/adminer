@@ -1,0 +1,13 @@
+Adminer is a full-featured database management tool written in PHP. It is a lightweight and more efficient alternative to phpMyAdmin. 
+
+Adminer provides a user-friendly interface for managing databases, tables, columns, relations, indexes, users, permissions, and more. It supports a wide range of databases including MySQL, PostgreSQL, SQLite, MS SQL, Oracle, and others.
+
+You can use Adminer to perform tasks such as:
+
+- Creating, editing, and deleting databases and tables
+- Executing SQL queries
+- Managing users and permissions
+- Importing and exporting data in various formats
+
+Adminer is available as a single PHP file which can be uploaded to your server and accessed via a web browser. It's also available as a Docker image, which can be useful in development environments.
+
