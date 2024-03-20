@@ -25,11 +25,12 @@ services:
     build:
       context: ./requirements/bonus/ftp
       dockerfile: Dockerfile
-    image: ftp:v1
+    image: ftp:working
     container_name: ftp
     # depends_on:
     #   - wordpress
     ports:
+      - "20:20"
       - "21:21"
       - "30000-30009:30000-30009"
     env_file:
