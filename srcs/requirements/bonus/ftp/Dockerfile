@@ -26,8 +26,8 @@ RUN echo "pasv_max_port=30009" >> /etc/vsftpd.conf
 
 # COPY ./conf/vsftpd.conf /etc
 
-EXPOSE 21/tcp 20/tcp 30000-30009/tcp
-#  10090-10100/tcp)
+EXPOSE 21/tcp 30000-30009/tcp
+#  20/tcp
 
 CMD [ "vsftpd", "/etc/vsftpd.conf" ]
 
