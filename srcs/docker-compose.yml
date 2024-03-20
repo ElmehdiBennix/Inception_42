@@ -25,14 +25,12 @@ services:
     build:
       context: ./requirements/bonus/adminer
       dockerfile: Dockerfile
-    image: adminer:v1
+    image: adminer:working
     container_name: adminer
     depends_on:
       - mariadb
     volumes:
       - wordpress:/var/www/html:rw
-    # ports:
-    #   - 8080:8080
     env_file:
       - .env
     networks:
