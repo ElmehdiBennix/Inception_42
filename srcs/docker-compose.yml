@@ -36,6 +36,7 @@ services:
     networks:
       - docker_network
     restart: always
+
   ftp:
     build:
       context: ./requirements/bonus/ftp
@@ -90,7 +91,7 @@ services:
     networks:
       - docker_network
     restart: always
-
+#todo automate loging to ftp
   mariadb:
     build:
       context: ./requirements/mariadb
