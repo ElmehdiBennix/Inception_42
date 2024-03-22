@@ -21,21 +21,17 @@ volumes:
     #   o: bind
 
 services:
-  # radis:
-  #   build:
-  #     context: ./requirements/bonus/Radis_cache
-  #     dockerfile: Dockerfile
-  #   image: radis:v1
-  #   container_name: radis
-  #   depends_on:
-  #     - mariadb
-  #   volumes:
-  #     - wordpress:/var/www/html:rw
-  #   env_file:
-  #     - .env
-  #   networks:
-  #     - docker_network
-  #   restart: always
+  radis:
+    build:
+      context: ./requirements/bonus/Redis_cashe
+      dockerfile: Dockerfile
+    image: radis:v1
+    container_name: radis
+    # depends_on:
+    #   - mariadb
+    networks:
+      - docker_network
+    restart: always
 
   adminer:
     build:
@@ -45,8 +41,6 @@ services:
     container_name: adminer
     volumes:
       - wordpress:/var/www/html:rw
-    env_file:
-      - .env
     networks:
       - docker_network
     restart: always
