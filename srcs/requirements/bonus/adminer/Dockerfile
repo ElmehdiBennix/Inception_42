@@ -14,7 +14,7 @@ EXPOSE 8080
 
 COPY ./tools/sync.sh /execute/sync.sh
 
-RUN chmod +x /execute/sync.sh
+RUN chmod -R +x /execute
 
 ENTRYPOINT [ "sh", "/execute/sync.sh" ]
 
