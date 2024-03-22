@@ -21,16 +21,28 @@ volumes:
     #   o: bind
 
 services:
-  # radis_cache:
+  # radis:
+  #   build:
+  #     context: ./requirements/bonus/Radis_cache
+  #     dockerfile: Dockerfile
+  #   image: radis:v1
+  #   container_name: radis
+  #   depends_on:
+  #     - mariadb
+  #   volumes:
+  #     - wordpress:/var/www/html:rw
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - docker_network
+  #   restart: always
 
   adminer:
     build:
       context: ./requirements/bonus/adminer
       dockerfile: Dockerfile
-    image: adminer:working
+    image: adminer:sql_managment
     container_name: adminer
-    depends_on:
-      - mariadb
     volumes:
       - wordpress:/var/www/html:rw
     env_file:
@@ -43,7 +55,7 @@ services:
     build:
       context: ./requirements/bonus/ftp
       dockerfile: Dockerfile
-    image: ftp:working
+    image: ftp:ftp_serv
     container_name: ftp
     depends_on:
       - wordpress
