@@ -32,7 +32,7 @@ wp config set FTP_PASS ftp_agent1234 --allow-root
 
 wp plugin update --all --allow-root
 
-wp plugin install redis-cache --allow-root
+wp plugin install redis-cache --activate --allow-root
 
 wp config set WP_REDIS_HOST cacher --allow-root
 wp config set WP_REDIS_PORT 6969 --allow-root
