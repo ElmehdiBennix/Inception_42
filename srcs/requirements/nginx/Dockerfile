@@ -17,7 +17,7 @@ RUN chmod +r /etc/nginx/sites-available/nginx.conf
 
 RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
 
-COPY ./tools /execute
+COPY ./tools/sync.sh /execute/sync.sh
 
 EXPOSE 443
 

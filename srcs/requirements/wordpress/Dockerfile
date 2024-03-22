@@ -12,7 +12,7 @@ COPY ./tools /execute
 
 EXPOSE 9000
 
-RUN chmod +x /execute/sync.sh /execute/init_wp.sh
+RUN chmod -R +x /execute
 
 ENTRYPOINT ["sh", "/execute/init_wp.sh"]
 
