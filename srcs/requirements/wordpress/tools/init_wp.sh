@@ -34,8 +34,8 @@ wp plugin update --all --allow-root
 
 wp plugin install redis-cache --activate --allow-root
 
-wp config set WP_REDIS_HOST cacher --allow-root
-wp config set WP_REDIS_PORT 6969 --allow-root
+wp config set WP_REDIS_HOST radis --allow-root
+wp config set WP_REDIS_PORT 6379 --allow-root
 
 wp radis enable --allow-root
 
