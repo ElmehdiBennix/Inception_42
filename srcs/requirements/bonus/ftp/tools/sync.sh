@@ -1,7 +1,7 @@
 #!/bin/bash
 
-server="mariadb"
-port="3306"
+server="wordpress"
+port="9000"
 
 server_status()
 {
@@ -20,7 +20,3 @@ while ! server_status; do
 done
 
 echo "$server on $port is up and ready to be connected to :"
-
-exec "$@"
-
-#no need nginx wont deliver unless mariadb is up

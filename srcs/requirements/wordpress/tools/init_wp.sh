@@ -22,3 +22,5 @@ sed -i "s|listen = /run/php/php8.2-fpm.sock|listen = 9000|g" /etc/php/8.2/fpm/po
 
 echo "starting php fast procces manager \n"
 exec "$@"
+
+

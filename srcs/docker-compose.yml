@@ -21,6 +21,8 @@ volumes:
     #   o: bind
 
 services:
+  # radis_cache:
+
   adminer:
     build:
       context: ./requirements/bonus/adminer
