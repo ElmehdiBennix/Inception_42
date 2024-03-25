@@ -10,8 +10,8 @@ volumes:
     name: Wordpress
   database:
     name: database
-  portainer:
-    name: containers
+  # portainer:
+  #   name: containers
     # driver: local
     # driver_opts:
     #   type: none
@@ -25,18 +25,18 @@ volumes:
 
 services:
 
-  portrainer:
-    build:
-      context: ./requirements/bonus/portainer
-      dockerfile: Dockerfile
-    image: portainer:v1
-    container_name: portainer
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer:/logs
-    networks:
-      - docker_network
-    restart: always
+  # portrainer:
+  #   build:
+  #     context: ./requirements/bonus/portainer
+  #     dockerfile: Dockerfile
+  #   image: portainer:v1
+  #   container_name: portainer
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - portainer:/logs
+  #   networks:
+  #     - docker_network
+  #   restart: always
 
   Redis_cache:
     build:
