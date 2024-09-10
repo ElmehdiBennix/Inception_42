@@ -11,7 +11,9 @@ volumes:
   database:
     name: database
   # portainer:
+  #   name: portainer
   #   name: containers
+
     # driver: local
     # driver_opts:
     #   type: none
@@ -31,9 +33,12 @@ services:
   #     dockerfile: Dockerfile
   #   image: portainer:v1
   #   container_name: portainer
+  #   ports:
+  #     - 8000:8000
+  #     - 9443:9443
   #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - portainer:/logs
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - portainer:/data
   #   networks:
   #     - docker_network
   #   restart: always
@@ -44,8 +49,8 @@ services:
       dockerfile: Dockerfile
     image: redis:v1
     container_name: redis
-    # depends_on:
-    #   - wordpress
+    depends_on:
+      - wordpress
     networks:
       - docker_network
     restart: always
@@ -141,4 +146,3 @@ services:
     networks:
       - docker_network
     restart: always
-
