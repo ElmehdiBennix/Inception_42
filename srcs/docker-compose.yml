@@ -43,59 +43,59 @@ services:
   #     - docker_network
   #   restart: always
 
-  Redis_cache:
-    build:
-      context: ./requirements/bonus/redis
-      dockerfile: Dockerfile
-    image: redis:v1
-    container_name: redis
-    depends_on:
-      - wordpress
-    networks:
-      - docker_network
-    restart: always
+  # Redis_cache:
+  #   build:
+  #     context: ./requirements/bonus/redis
+  #     dockerfile: Dockerfile
+  #   image: redis:v1
+  #   container_name: redis
+  #   depends_on:
+  #     - wordpress
+  #   networks:
+  #     - docker_network
+  #   restart: always
 
-  adminer:
-    build:
-      context: ./requirements/bonus/adminer
-      dockerfile: Dockerfile
-    image: adminer:v1
-    container_name: adminer
-    # volumes:
-    #   - wordpress:/var/www/html:rw
-    networks:
-      - docker_network
-    restart: always
+  # adminer:
+  #   build:
+  #     context: ./requirements/bonus/adminer
+  #     dockerfile: Dockerfile
+  #   image: adminer:v1
+  #   container_name: adminer
+  #   # volumes:
+  #   #   - wordpress:/var/www/html:rw
+  #   networks:
+  #     - docker_network
+  #   restart: always
 
-  static:
-    build:
-      context: ./requirements/bonus/static
-      dockerfile: Dockerfile
-    image: static:v1
-    container_name: static
-    networks:
-      - docker_network
-    restart: always
+  # static:
+  #   build:
+  #     context: ./requirements/bonus/static
+  #     dockerfile: Dockerfile
+  #   image: static:v1
+  #   container_name: static
+  #   networks:
+  #     - docker_network
+  #   restart: always
 
-  ftp:
-    build:
-      context: ./requirements/bonus/ftp
-      dockerfile: Dockerfile
-    image: ftp:v1
-    container_name: ftp
-    depends_on:
-      - wordpress
-    ports:
-      - "21:21"
-      - "30000-30009:30000-30009"
-      # - "20:20"
-    env_file:
-      - .env
-    volumes:
-      - wordpress:/var/www/html:rw
-    networks:
-      - docker_network
-    restart: always
+  # ftp:
+  #   build:
+  #     context: ./requirements/bonus/ftp
+  #     dockerfile: Dockerfile
+  #   image: ftp:v1
+  #   container_name: ftp
+  #   depends_on:
+  #     - wordpress
+  #   ports:
+  #     - "21:21"
+  #     - "30000-30009:30000-30009"
+  #     # - "20:20"
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - wordpress:/var/www/html:rw
+  #   networks:
+  #     - docker_network
+  #   restart: always
 
   nginx:
     build:
@@ -121,7 +121,7 @@ services:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    image: wordpress:v1
+    image: wordpress:stable
     container_name: wordpress
     depends_on:
       - mariadb
@@ -137,7 +137,7 @@ services:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    image: maria:v1
+    image: mariadb:stable
     container_name: mariadb
     env_file:
       - .env
