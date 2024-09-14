@@ -19,7 +19,7 @@ down:
 logs:
 	@docker-compose -f $(COMPOSE_FILE) logs -f
 
-compose: 
+compose:
 	docker-compose -f $(COMPOSE_FILE) $(call CAPTURED_ARGS,compose)
 
 list:

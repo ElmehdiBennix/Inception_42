@@ -45,7 +45,7 @@ services:
 
   Redis_cache:
     build:
-      context: ./requirements/bonus/Redis_cache
+      context: ./requirements/bonus/redis
       dockerfile: Dockerfile
     image: redis:v1
     container_name: redis
@@ -59,20 +59,20 @@ services:
     build:
       context: ./requirements/bonus/adminer
       dockerfile: Dockerfile
-    image: adminer:sql_managment
+    image: adminer:v1
     container_name: adminer
-    volumes:
-      - wordpress:/var/www/html:rw
+    # volumes:
+    #   - wordpress:/var/www/html:rw
     networks:
       - docker_network
     restart: always
 
   static:
     build:
-      context: ./requirements/bonus/static_website
+      context: ./requirements/bonus/static
       dockerfile: Dockerfile
-    image: static_website:v1
-    container_name: static_website
+    image: static:v1
+    container_name: static
     networks:
       - docker_network
     restart: always
@@ -81,7 +81,7 @@ services:
     build:
       context: ./requirements/bonus/ftp
       dockerfile: Dockerfile
-    image: ftp:ftp_serv
+    image: ftp:v1
     container_name: ftp
     depends_on:
       - wordpress
@@ -114,14 +114,14 @@ services:
     ports:
       - "443:443"
       - "90:90"
-      - "80:80"
+      - "444:444"
     restart: always
 
   wordpress:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    image: wordpress:web_site
+    image: wordpress:v1
     container_name: wordpress
     depends_on:
       - mariadb
@@ -137,7 +137,7 @@ services:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    image: maria:DB
+    image: maria:v1
     container_name: mariadb
     env_file:
       - .env

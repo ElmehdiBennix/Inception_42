@@ -19,3 +19,5 @@ ENTRYPOINT [ "sh", "/execute/init_ftp.sh" ]
 CMD [ "vsftpd", "/etc/vsftpd.conf" ]
 
 #ftp commands lcd !ls |  put get mget mput
+
+# enetry point
