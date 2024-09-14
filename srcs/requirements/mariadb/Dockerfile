@@ -1,19 +1,17 @@
 
 FROM debian:stable
 
-RUN apt-get update && apt-get upgrade -y && apt-get install mariadb-server -y
+RUN apt-get update && apt-get install mariadb-server -y
 
-RUN mkdir -p /var/run/mysqld && chown -R mysql /var/run/mysqld && chmod 755 /var/run/mysqld
+RUN mkdir -p /run/mysqld \
+    && chown -R mysql:mysql /run/mysqld \
+    && chmod 755 /run/mysqld \
+    && sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
 
-# Bind address to 0.0.0.0 to allow connections from any IP address
-RUN sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
-
-COPY ./tools/build_db.sh /init/build_db.sh
+COPY ./tools /execute
+RUN chmod +x /execute/build_db.sh
 
 EXPOSE 3306
 
-RUN chmod +x /init/build_db.sh
-
-ENTRYPOINT ["sh", "/init/build_db.sh"]
-
+ENTRYPOINT ["sh", "/execute/build_db.sh"]
 CMD [ "mysqld_safe" ]
