@@ -2,7 +2,7 @@ FROM debian:stable
 
 WORKDIR /var/www/html/adminer
 
-RUN apt-get update && apt install wget php-mysql php8.2-fpm vim adminer netcat-traditional -y
+RUN apt-get update && apt install wget php-mysql php8.2-fpm adminer netcat-traditional -y
 
 RUN wget "http://www.adminer.org/latest.php" -O /var/www/html/adminer/adminer.php
 

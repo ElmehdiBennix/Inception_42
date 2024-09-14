@@ -1,3 +1,4 @@
+
 FROM debian:stable
 
 WORKDIR /var/www/html/wordpress
