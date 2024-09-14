@@ -1,32 +1,7 @@
-
-version: '3.8'
-
-networks:
-  docker_network:
-    name: inception
-
-volumes:
-  wordpress:
-    name: Wordpress
-  database:
-    name: database
-  # portainer:
-  #   name: portainer
-  #   name: containers
-
-    # driver: local
-    # driver_opts:
-    #   type: none
-    #   device: /home/${USER}/data/wordpress
-    #   o: bind
-    # driver: local
-    # driver_opts:
-    #   type: none
-    #   device: /home/${USER}/data/mysql
-    #   o: bind
+version: '3.9'
 
 services:
-
+  #########   BONUS   #########
   # portrainer:
   #   build:
   #     context: ./requirements/bonus/portainer
@@ -43,7 +18,7 @@ services:
   #     - docker_network
   #   restart: always
 
-  # Redis_cache:
+  # redis_cache:
   #   build:
   #     context: ./requirements/bonus/redis
   #     dockerfile: Dockerfile
@@ -96,49 +71,47 @@ services:
   #   networks:
   #     - docker_network
   #   restart: always
-
+  ######### MANDATORY #########
   nginx:
+    container_name: nginx
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
-    image: nginx:web_serv
-    container_name: nginx
-    depends_on:
-      - wordpress
-    env_file:
-      - .env
+    image: nginx:web_server
     volumes:
       - wordpress:/var/www/html:rw
     networks:
       - docker_network
     ports:
       - "443:443"
-      - "90:90"
-      - "444:444"
+      # - "90:90"
+      # - "444:444"
+    depends_on:
+      - wordpress
     restart: always
 
   wordpress:
+    container_name: wordpress
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    image: wordpress:stable
-    container_name: wordpress
-    depends_on:
-      - mariadb
+    image: wordpress:website
     env_file:
       - .env
     volumes:
       - wordpress:/var/www/html:rw
     networks:
       - docker_network
+    depends_on:
+      - mariadb
     restart: always
 
   mariadb:
+    container_name: mariadb
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    image: mariadb:stable
-    container_name: mariadb
+    image: mariadb:database
     env_file:
       - .env
     volumes:
@@ -146,3 +119,26 @@ services:
     networks:
       - docker_network
     restart: always
+
+
+volumes:
+  wordpress:
+    name: Wordpress
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: /home/${USER}/data/wordpress
+    #   o: bind
+
+  database:
+    name: database
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: /home/${USER}/data/mysql
+    #   o: bind
+
+
+networks:
+  docker_network:
+    name: inception

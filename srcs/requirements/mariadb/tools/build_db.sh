@@ -6,7 +6,7 @@ echo "Starting mariadb installation..."
 mysql_install_db
 
 mysqld_safe &
-sleep 1
+sleep 0.5
 
 echo "Passing rules to mysql for configuration"
 
