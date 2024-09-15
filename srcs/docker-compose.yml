@@ -2,12 +2,44 @@ version: '3.9'
 
 services:
   #########   BONUS   #########
+  adminer:
+    container_name: adminer
+    build:
+      context: ./requirements/bonus/adminer
+      dockerfile: Dockerfile
+    image: adminer:db_managment
+    networks:
+      - docker_network
+    depends_on:
+      - mariadb
+    restart: always
+
+  # ftp:
+  #   container_name: ftp
+  #   build:
+  #     context: ./requirements/bonus/ftp
+  #     dockerfile: Dockerfile
+  #   image: ftp:v1
+  #   depends_on:
+  #     - wordpress
+  #   ports:
+  #     - "21:21"
+  #     - "30000-30009:30000-30009"
+  #     # - "20:20"
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - wordpress:/var/www/html:rw
+  #   networks:
+  #     - docker_network
+  #   restart: always
+
   # portrainer:
+  #   container_name: portainer
   #   build:
   #     context: ./requirements/bonus/portainer
   #     dockerfile: Dockerfile
   #   image: portainer:v1
-  #   container_name: portainer
   #   ports:
   #     - 8000:8000
   #     - 9443:9443
@@ -28,47 +60,16 @@ services:
       - docker_network
     restart: always
 
-  # adminer:
-  #   build:
-  #     context: ./requirements/bonus/adminer
-  #     dockerfile: Dockerfile
-  #   image: adminer:v1
-  #   container_name: adminer
-  #   # volumes:
-  #   #   - wordpress:/var/www/html:rw
-  #   networks:
-  #     - docker_network
-  #   restart: always
+  static_website:
+    container_name: website
+    build:
+      context: ./requirements/bonus/static
+      dockerfile: Dockerfile
+    image: website:static_website
+    networks:
+      - docker_network
+    restart: always
 
-  # static:
-  #   build:
-  #     context: ./requirements/bonus/static
-  #     dockerfile: Dockerfile
-  #   image: static:v1
-  #   container_name: static
-  #   networks:
-  #     - docker_network
-  #   restart: always
-
-  # ftp:
-  #   build:
-  #     context: ./requirements/bonus/ftp
-  #     dockerfile: Dockerfile
-  #   image: ftp:v1
-  #   container_name: ftp
-  #   depends_on:
-  #     - wordpress
-  #   ports:
-  #     - "21:21"
-  #     - "30000-30009:30000-30009"
-  #     # - "20:20"
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - wordpress:/var/www/html:rw
-  #   networks:
-  #     - docker_network
-  #   restart: always
   ######### MANDATORY #########
   nginx:
     container_name: nginx
@@ -82,8 +83,8 @@ services:
       - docker_network
     ports:
       - "443:443"
-      # - "90:90"
-      # - "444:444"
+      - "8080:8080"
+      - "450:450"
     depends_on:
       - wordpress
     restart: always
@@ -93,7 +94,7 @@ services:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    image: wordpress:website
+    image: wordpress:backend
     env_file:
       - .env
     volumes:

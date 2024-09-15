@@ -1,7 +1,10 @@
 
 FROM debian:stable
 
-RUN apt-get update && apt-get install vsftpd netcat-traditional -y
+RUN apt-get update \
+    && apt-get install vsftpd netcat-traditional -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN service vsftpd stop
 
