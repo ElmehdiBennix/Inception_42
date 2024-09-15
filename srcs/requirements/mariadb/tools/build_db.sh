@@ -1,13 +1,12 @@
 #!/bin/bash
 
-mysql -v
-
 echo "Starting mariadb installation..."
 mysql_install_db
 
 mysqld_safe &
 sleep 0.5
 
+mysql -v
 echo "Passing rules to mysql for configuration"
 
 echo "DROP DATABASE IF EXISTS test;" \

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sleep 3
+sleep 4
 
 sh /execute/sync.sh
 
@@ -11,7 +11,7 @@ wp core download --allow-root
 
 echo "Starting WP configuration ..."
 wp config create --dbname=$MARIADB_DATABASE --dbuser=$MARIADB_USER --dbpass=$MARIADB_PASSWORD --dbhost=mariadb --allow-root
-wp core install --url=localhost --title=leprissa --admin_user=$MARIADB_USER --admin_password=$MARIADB_PASSWORD --admin_email=$WP_EMAIL --allow-root
+wp core install --url=localhost --title=leprissa --admin_user=$ADMIN_USER --admin_password=$ADMIN_PASSWORD --admin_email=$ADMIN_EMAIL --allow-root
 wp user create $WP_USER $WP_EMAIL --role=author --user_pass=$WP_PASSWORD --allow-root
 
 # ftp config

@@ -1,7 +1,10 @@
 
 FROM debian:stable
 
-RUN apt-get update && apt-get install mariadb-server -y
+RUN apt-get update \
+    && apt-get install mariadb-server -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /run/mysqld \
     && chown -R mysql:mysql /run/mysqld \
@@ -13,5 +16,5 @@ RUN chmod +x /execute/build_db.sh
 
 EXPOSE 3306
 
-ENTRYPOINT ["sh", "/execute/build_db.sh"]
+ENTRYPOINT [ "sh", "/execute/build_db.sh" ]
 CMD [ "mysqld_safe" ]
