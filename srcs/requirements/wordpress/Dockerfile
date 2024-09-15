@@ -2,13 +2,13 @@
 FROM debian:stable
 
 RUN apt-get update \
-    && apt-get install curl php-mysql php8.2-fpm netcat-traditional -y \
+    && apt-get install wget php-mysql php8.2-fpm netcat-traditional -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html/wordpress
 
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 

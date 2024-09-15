@@ -1,13 +1,14 @@
+
 FROM debian:stable
 
-WORKDIR /var/www/html
+RUN apt-get update \
+    && apt-get install lighttpd -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install lighttpd -y
-
-COPY ./conf .
-
-RUN chmod -R 755 ../html
+COPY ./conf /var/www/html
+RUN chmod -R 755 /var/www/html
 
 EXPOSE 80
 
-CMD ["lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]
+CMD [ "lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf" ]
