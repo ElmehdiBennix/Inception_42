@@ -18,17 +18,15 @@ services:
   #     - docker_network
   #   restart: always
 
-  # redis_cache:
-  #   build:
-  #     context: ./requirements/bonus/redis
-  #     dockerfile: Dockerfile
-  #   image: redis:v1
-  #   container_name: redis
-  #   depends_on:
-  #     - wordpress
-  #   networks:
-  #     - docker_network
-  #   restart: always
+  redis_cache:
+    container_name: redis
+    build:
+      context: ./requirements/bonus/redis
+      dockerfile: Dockerfile
+    image: redis:cache
+    networks:
+      - docker_network
+    restart: always
 
   # adminer:
   #   build:

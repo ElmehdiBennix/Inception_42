@@ -1,7 +1,10 @@
 
 FROM debian:stable
 
-RUN apt-get update && apt-get install curl php-mysql php8.2-fpm netcat-traditional -y
+RUN apt-get update \
+    && apt-get install curl php-mysql php8.2-fpm netcat-traditional -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html/wordpress
 
@@ -14,5 +17,5 @@ RUN chmod -R +x /execute
 
 EXPOSE 9000
 
-ENTRYPOINT ["sh", "/execute/init_wp.sh"]
+ENTRYPOINT ["sh", "/execute/init_wp.sh" ]
 CMD ["/usr/sbin/php-fpm8.2", "-F"]
