@@ -14,7 +14,7 @@ RUN mkdir -p /run/mysqld \
 COPY ./tools /execute
 RUN chmod +x /execute/build_db.sh
 
-EXPOSE 3306
+EXPOSE 3306/tcp
 
 ENTRYPOINT [ "sh", "/execute/build_db.sh" ]
 CMD [ "mysqld_safe" ]

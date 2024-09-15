@@ -14,25 +14,24 @@ services:
       - mariadb
     restart: always
 
-  # ftp:
-  #   container_name: ftp
-  #   build:
-  #     context: ./requirements/bonus/ftp
-  #     dockerfile: Dockerfile
-  #   image: ftp:v1
-  #   depends_on:
-  #     - wordpress
-  #   ports:
-  #     - "21:21"
-  #     - "30000-30009:30000-30009"
-  #     # - "20:20"
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - wordpress:/var/www/html:rw
-  #   networks:
-  #     - docker_network
-  #   restart: always
+  ftp:
+    container_name: ftp
+    build:
+      context: ./requirements/bonus/ftp
+      dockerfile: Dockerfile
+    image: ftp:file_transfer
+    depends_on:
+      - wordpress
+    ports:
+      - "21:21"
+      - "30000-30009:30000-30009"
+    env_file:
+      - .env
+    volumes:
+      - wordpress:/var/www/html:rw
+    networks:
+      - docker_network
+    restart: always
 
   # portrainer:
   #   container_name: portainer

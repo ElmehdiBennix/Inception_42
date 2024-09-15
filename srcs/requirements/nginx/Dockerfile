@@ -20,7 +20,7 @@ RUN chmod -R +rx /execute \
     && mv /execute/nginx.conf /etc/nginx/sites-available \
     && ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled
 
-EXPOSE 443
+EXPOSE 443/tcp
 
 ENTRYPOINT [ "sh", "/execute/sync.sh" ]
 CMD [ "nginx", "-g", "daemon off;" ]
