@@ -15,7 +15,7 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 COPY ./tools /execute
 RUN chmod -R +x /execute
 
-EXPOSE 9000
+EXPOSE 9000/tcp
 
 ENTRYPOINT ["sh", "/execute/init_wp.sh" ]
 CMD ["/usr/sbin/php-fpm8.2", "-F"]

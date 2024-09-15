@@ -9,6 +9,6 @@ RUN apt-get update \
 COPY ./conf /var/www/html
 RUN chmod -R 755 /var/www/html
 
-EXPOSE 80
+EXPOSE 80/tcp
 
 CMD [ "lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf" ]
