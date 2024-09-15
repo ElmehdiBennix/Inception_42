@@ -33,21 +33,21 @@ services:
       - docker_network
     restart: always
 
-  # portrainer:
-  #   container_name: portainer
-  #   build:
-  #     context: ./requirements/bonus/portainer
-  #     dockerfile: Dockerfile
-  #   image: portainer:v1
-  #   ports:
-  #     - 8000:8000
-  #     - 9443:9443
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock:ro
-  #     - portainer:/data
-  #   networks:
-  #     - docker_network
-  #   restart: always
+  portainer:
+    container_name: portainer
+    build:
+      context: ./requirements/bonus/portainer
+      dockerfile: Dockerfile
+    image: portainer:docker_management
+    ports:
+      - 8000:8000
+      - 9443:9443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - portainer:/data
+    networks:
+      - docker_network
+    restart: always
 
   redis_cache:
     container_name: redis
