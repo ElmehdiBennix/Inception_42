@@ -1,4 +1,3 @@
-version: '3.9'
 
 services:
   #########   BONUS   #########
@@ -78,8 +77,8 @@ services:
       - docker_network
     ports:
       - "443:443"
-      # - "450:450" # static
-      # - 9443:9443 #portainer
+      - "444:444"
+      - "9443:9443"
     depends_on:
       - wordpress
     restart: always

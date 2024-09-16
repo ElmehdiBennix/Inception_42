@@ -1,4 +1,3 @@
-#ftp commands lcd !ls |  put get mget mput
 
 FROM debian:stable
 
