@@ -11,6 +11,7 @@ all: up
 
 up: down
 	docker-compose -f $(COMPOSE_FILE) up --build -d
+	docker image prune -f
 	$(MAKE) logs
 
 down:
@@ -51,10 +52,10 @@ fclean : del_containers del_volume_network clean
 
 re: fclean all
 
-git:
+push:
 	git add .
 	git status
 	git commit -m $(M)
 	git push
 
-.PHONY: up down logs compose list del_images del_containers clean fclean re git
+.PHONY: up down logs compose list del_images del_containers clean fclean re push
