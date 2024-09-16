@@ -12,6 +12,6 @@ RUN wget https://github.com/portainer/portainer/releases/download/2.21.1/portain
     && rm -rf portainer.tar.gz
 
 #maybe create a admine user before
-EXPOSE 9443/tcp
+EXPOSE 9000/tcp
 
 ENTRYPOINT [ "./portainer/portainer" ]

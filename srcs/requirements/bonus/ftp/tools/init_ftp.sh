@@ -2,9 +2,9 @@
 
 sh /execute/sync.sh
 
-adduser --home /var/www/html/wordpress ftp_agent --disabled-password && echo "ftp_agent:ftp_agent1234" | chpasswd
+adduser --home /var/www/html/wordpress $FTP_USER --disabled-password && echo "$FTP_USER:$FTP_PASSWORD" | chpasswd
 
-chown -R ftp_agent:ftp_agent /var/www/html/wordpress
+chown -R $FTP_USER:$FTP_USER /var/www/html/wordpress
 chmod -R 755 /var/www/html/wordpress
 
 
