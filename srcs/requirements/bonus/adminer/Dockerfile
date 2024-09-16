@@ -1,5 +1,5 @@
 
-FROM debian:stable
+FROM debian:bullseye
 
 RUN apt-get update \
     && apt install wget php-mysql php8.2-fpm adminer netcat-traditional -y \

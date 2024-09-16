@@ -1,5 +1,5 @@
 
-FROM debian:stable
+FROM debian:bullseye
 
 RUN apt-get update \
     && apt-get install vsftpd netcat-traditional -y \
