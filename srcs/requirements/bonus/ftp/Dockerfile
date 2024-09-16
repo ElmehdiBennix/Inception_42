@@ -12,5 +12,5 @@ RUN chmod -R +x /execute
 
 EXPOSE 21/tcp 30000-30009/tcp
 
-# ENTRYPOINT [ "sh", "/execute/init_ftp.sh" ]
+ENTRYPOINT [ "sh", "/execute/init_ftp.sh" ]
 CMD [ "vsftpd", "/etc/vsftpd.conf" ]
