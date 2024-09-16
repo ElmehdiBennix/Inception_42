@@ -1,1 +1,0 @@
-The /etc/shadow file in Linux is a critical component of the system's security and user management. It stores encrypted user passwords and other security-related information for each user account on the system. This file is only accessible by the root user, ensuring that sensitive password information is protected.

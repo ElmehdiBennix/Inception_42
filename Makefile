@@ -58,6 +58,3 @@ git:
 	git push
 
 .PHONY: up down logs compose list del_images del_containers clean fclean re git
-
-
-# make: *** [Makefile:23: compose] Error 137?

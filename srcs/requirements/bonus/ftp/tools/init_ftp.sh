@@ -1,33 +1,36 @@
 #!/bin/bash
 
-sh /execute/sync.sh
+service vsftpd stop
 
-adduser --home /var/www/html/wordpress $FTP_USER --disabled-password && echo "$FTP_USER:$FTP_PASSWORD" | chpasswd &> /dev/null
+adduser $FTP_USER --disabled-password
 
-chown -R $FTP_USER:$FTP_USER /var/www/html/wordpress
-chmod -R 755 /var/www/html/wordpress
+echo "$FTP_USER:$FTP_PASSWORD" | chpasswd &> /dev/null
 
-# echo $FTP_USRER | tee -a /etc/vsftpd.userlist &> /dev/null
+chown -R $FTP_USER:$FTP_USER /var/www/html
+chmod -R 755 /var/www/html
 
-# This enables FTP commands which change the filesystem, including commands like `STOR`, `DELE`, `RNFR`, `RNTO`, etc.
-echo "write_enable=YES" >> /etc/vsftpd.conf
-
-# This enables local users to log in to the FTP server.
-# echo "local_enable=YES" >> /etc/vsftpd.conf
-
-# This confines local users to their home directories by default, preventing them from navigating the entire filesystem.
-echo "chroot_local_user=YES" >> /etc/vsftpd.conf
-
-# maybe wordpress dont work with this on
-echo "allow_writeable_chroot=YES" >> /etc/vsftpd.conf
-
-
-
-# enable ftp passive and ports
-echo "pasv_enable=YES" >> /etc/vsftpd.conf
-echo "pasv_min_port=30000" >> /etc/vsftpd.conf
-echo "pasv_max_port=30009" >> /etc/vsftpd.conf
-
+echo "listen=YES
+listen_ipv6=NO
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+dirmessage_enable=YES
+use_localtime=YES
+xferlog_enable=YES
+connect_from_port_20=YES
+chroot_local_user=YES
+allow_writeable_chroot=YES
+user_sub_token=$USER
+local_root=/var/www/html
+secure_chroot_dir=/var/run/vsftpd/empty
+pam_service_name=vsftpd
+pasv_enable=YES
+pasv_min_port=30000
+pasv_max_port=30009
+local_root=/var/www/html
+ftpd_banner=Welcome $USER to the ftp server.
+user_sub_token=$USER
+local_umask=022" > /etc/vsftpd.conf
 
 echo "<=== starting FTP on port 21 ===>"
 exec "$@"
