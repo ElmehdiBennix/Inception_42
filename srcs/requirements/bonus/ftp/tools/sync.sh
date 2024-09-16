@@ -17,5 +17,3 @@ service_status()
 while ! service_status; do
     sleep 0.5
 done
-
-echo "<=== Starting vsftpd ===>"
