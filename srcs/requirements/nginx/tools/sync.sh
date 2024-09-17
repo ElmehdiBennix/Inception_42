@@ -15,7 +15,7 @@ service_status()
 }
 
 while ! service_status; do
-    sleep 0.5
+    sleep 1
 done
 
 echo "<=== Starting nginx ===>"
