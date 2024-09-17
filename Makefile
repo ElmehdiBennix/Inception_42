@@ -5,7 +5,7 @@ SER := service_name
 
 M := autopush
 
-CAPTURED_ARGS = $(filter-out $1,$(MAKECMDGOALS))
+# CAPTURED_ARGS = $(filter-out $1,$(MAKECMDGOALS))
 
 all: up
 
@@ -20,8 +20,8 @@ down:
 logs:
 	@docker-compose -f $(COMPOSE_FILE) logs -f
 
-compose:
-	docker-compose -f $(COMPOSE_FILE) $(call CAPTURED_ARGS,compose)
+# compose:
+# 	docker-compose -f $(COMPOSE_FILE) $(call CAPTURED_ARGS,compose)
 
 list:
 	@echo "            __________NETWORKS__________            \n"

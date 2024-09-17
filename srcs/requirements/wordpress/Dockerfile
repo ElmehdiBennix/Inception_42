@@ -2,7 +2,7 @@
 FROM debian:bullseye
 
 RUN apt-get update \
-    && apt-get install wget php-mysql php8.2-fpm netcat-traditional -y \
+    && apt-get install wget php-mysql php7.4-fpm netcat-traditional -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -18,4 +18,4 @@ RUN chmod -R +x /execute
 EXPOSE 9000/tcp
 
 ENTRYPOINT ["sh", "/execute/init_wp.sh" ]
-CMD ["/usr/sbin/php-fpm8.2", "-F"]
+CMD ["/usr/sbin/php-fpm7.4", "-F"]
