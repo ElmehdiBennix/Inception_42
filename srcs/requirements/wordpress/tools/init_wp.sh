@@ -31,7 +31,7 @@ wp config set WP_REDIS_HOST redis_cache --allow-root
 wp config set WP_REDIS_PORT 6379 --allow-root
 wp redis enable --allow-root
 
-# chown -R www-data:www-data /var/www/html/wordpress
+chown -R www-data:www-data /var/www/html/wordpress
 
 echo "Starting PHP Fast Procces Manager:"
 exec "$@"
