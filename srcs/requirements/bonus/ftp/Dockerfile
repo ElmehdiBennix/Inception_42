@@ -2,7 +2,7 @@
 FROM debian:bullseye
 
 RUN apt-get update \
-    && apt-get install vsftpd netcat-traditional -y \
+    && apt-get install vsftpd -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

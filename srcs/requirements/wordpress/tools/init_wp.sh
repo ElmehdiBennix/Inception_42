@@ -4,7 +4,10 @@ sleep 4
 
 sh /execute/sync.sh
 
-sed -i "s|listen = /run/php/php8.2-fpm.sock|listen = 9000|g" /etc/php/8.2/fpm/pool.d/www.conf
+mkdir -p /run/php
+chown -R www-data:www-data /run/php
+chmod 755 /run/php
+sed -i "s|listen = /run/php/php7.4-fpm.sock|listen = 9000|g" /etc/php/7.4/fpm/pool.d/www.conf
 
 echo "Starting WP download..."
 wp core download --allow-root
@@ -28,7 +31,7 @@ wp config set WP_REDIS_HOST redis_cache --allow-root
 wp config set WP_REDIS_PORT 6379 --allow-root
 wp redis enable --allow-root
 
-chown -R www-data:www-data /var/www/html/wordpress
+# chown -R www-data:www-data /var/www/html/wordpress
 
 echo "Starting PHP Fast Procces Manager:"
 exec "$@"

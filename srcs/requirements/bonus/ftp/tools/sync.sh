@@ -1,7 +1,7 @@
 #!/bin/bash
 
-container="mariadb"
-port="3306"
+container="wordpress"
+port="9000"
 
 service_status()
 {
@@ -18,10 +18,4 @@ while ! service_status; do
     sleep 0.5
 done
 
-echo "<=== adminer is up and running ===>"
-
-mkdir -p /run/php
-chown -R www-data:www-data /run/php
-chmod 755 /run/php
-
-exec "$@"
+echo "<=== Starting ftp Execution ===>"
