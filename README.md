@@ -1,23 +1,55 @@
-# Docker System Administration Project
+# Inception
 
-This project focuses on expanding system administration knowledge through the practical use of Docker. The goal is to virtualize various Docker images by creating and managing them within a dedicated personal virtual machine.
+## Project Overview
 
-## Project Objectives:
-- Explore and implement Docker virtualization for system administration tasks.
+Inception is a system administration project designed to deepen your knowledge of Docker and containerization. The objective is to set up a small infrastructure composed of various services running in separate Docker containers, orchestrated with `docker-compose` within a Virtual Machine.
+
+## Key Objectives:
 - Create Docker images for specific purposes within a personal virtual environment.
 - Gain hands-on experience with containerization, deployment, and orchestration using Docker.
-- Document the process, challenges, and solutions encountered during the Dockerization of system administration tasks.
 
-## Key Features:
-- Docker image creation for system administration tasks.
-- Documentation detailing the steps involved in virtualization.
-- Personal virtual machine setup for running Docker containers.
-- Practical examples of Dockerizing common system administration scenarios.
+## Features
+- **NGINX with TLSv1.2 or TLSv1.3**
+- **WordPress with PHP-FPM** (without NGINX)
+- **MariaDB Database**
+- **Docker volumes for database and website files**
+- **Docker network for container communication**
+- **Automatic container restart on failure**
+- **Domain name setup (`login.42.fr`) pointing to local IP**
+- **Environment variables stored securely in a `.env` file**
 
-## Getting Started:
-1. Clone the repository to your local machine.
-2. Follow the provided documentation to set up your personal virtual machine.
-3. Explore the Docker images created for various system administration tasks.
-4. Experiment with containerization, deployment, and orchestration using Docker.
+## Bonus Features
+- **Redis cache for WordPress**
+- **FTP server for file management**
+- **Static website (non-PHP)**
+- **Adminer for database management**
+- **Portainer for docker management**
+
+
+
+## Installation & Usage
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/Elmehdibennix/Inception_42.git
+   cd inception
+   ```
+2. Configure environment variables in `srcs/.env`.
+3. Run the project using Makefile:
+   ```sh
+   make
+   ```
+4. To stop the project:
+   ```sh
+   make down
+   ```
+
+
+## Notes
+- All Docker images are built manually (no pre-built images allowed except Alpine/Debian base images).
+- The `latest` tag is prohibited.
+- Credentials must be stored securely in `.env` and ignored by Git.
+
+## License
+This project is part of the 42 curriculum and follows its academic policies.
 
 Happy Dockerizing!
