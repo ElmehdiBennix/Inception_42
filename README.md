@@ -25,15 +25,13 @@ Inception is a system administration project designed to deepen your knowledge o
 - **Adminer for database management**
 - **Portainer for docker management**
 
-
-
 ## Installation & Usage
 1. Clone the repository:
    ```sh
    git clone https://github.com/Elmehdibennix/Inception_42.git
    cd Inception_42
    ```
-2. Configure environment variables in `srcs/.env`.
+2. Configure environment variables in `srcs/.env`
 3. Run the project using Makefile:
    ```sh
    make
