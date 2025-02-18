@@ -41,13 +41,9 @@ Inception is a system administration project designed to deepen your knowledge o
    make down
    ```
 
-
 ## Notes
 - All Docker images are built manually (no pre-built images allowed except Alpine/Debian base images).
 - The `latest` tag is prohibited.
 - Credentials must be stored securely in `.env` and ignored by Git.
-
-## License
-This project is part of the 42 curriculum and follows its academic policies.
 
 Happy Dockerizing!
