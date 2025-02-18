@@ -10,7 +10,7 @@ Inception is a system administration project designed to deepen your knowledge o
 
 ## Features
 - **NGINX with TLSv1.2 or TLSv1.3**
-- **WordPress with PHP-FPM** (without NGINX)
+- **WordPress with PHP-FPM**
 - **MariaDB Database**
 - **Docker volumes for database and website files**
 - **Docker network for container communication**
