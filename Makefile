@@ -1,3 +1,4 @@
+#*******************************************************************************#
 
 COMPOSE_FILE := ./srcs/docker-compose.yml
 
@@ -6,6 +7,8 @@ SER := service_name
 M := autopush
 
 # CAPTURED_ARGS = $(filter-out $1,$(MAKECMDGOALS))
+
+#*******************************************************************************#
 
 all: up
 
@@ -57,5 +60,7 @@ push:
 	git status
 	git commit -m $(M)
 	git push
+
+#*******************************************************************************#
 
 .PHONY: up down logs compose list del_images del_containers clean fclean re push
