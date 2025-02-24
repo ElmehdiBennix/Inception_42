@@ -30,12 +30,12 @@ A comprehensive Docker-based web infrastructure implementing WordPress, NGINX, M
                +---------+ +---------+ +---------+ +---------+ +--------+
 
 
-           Volumes +------+----------------+----------------+
-                          |                |                |
-                    +-----v-----+    +-----v----+    +------v----+
-                    | WordPress |    | Database |    |   FTP     |
-                    |   Files   |    |   Data   |    |  Storage  |
-                    +-----------+    +----------+    +-----------+
+               Volumes +------+----------------+----------------+
+                              |                |                |
+                        +-----v-----+    +-----v----+    +------v----+
+                        | WordPress |    | Database |    |   FTP     |
+                        |   Files   |    |   Data   |    |  Storage  |
+                        +-----------+    +----------+    +-----------+
 ```
 
 ## Security Measures
@@ -60,8 +60,8 @@ A comprehensive Docker-based web infrastructure implementing WordPress, NGINX, M
 1. Clone the repository:
 
    ```bash
-   git clone
-   cd
+   git clone https://github.com/ElmehdiBennix/Inception_42.git
+   cd Inception_42
    ```
 
 2. Create .env file:
