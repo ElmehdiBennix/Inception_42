@@ -67,8 +67,8 @@ A comprehensive Docker-based web infrastructure implementing WordPress, NGINX, M
 2. Create .env file:
 
    ```bash
-   cp srcs/.env.example srcs/.env
    # Edit srcs/.env with your configurations
+   cp srcs/.env.example srcs/.env
    ```
 
 3. Build and start services:
