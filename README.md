@@ -30,12 +30,12 @@ A comprehensive Docker-based web infrastructure implementing WordPress, NGINX, M
                +---------+ +---------+ +---------+ +---------+ +--------+
 
 
-               Volumes +------+----------------+----------------+
-                              |                |                |
-                        +-----v-----+    +-----v----+    +------v----+
-                        | WordPress |    | Database |    |   FTP     |
-                        |   Files   |    |   Data   |    |  Storage  |
-                        +-----------+    +----------+    +-----------+
+               Volumes +------+----------------+
+                              |                |
+                        +-----v-----+    +-----v----+
+                        | WordPress |    | Database |
+                        |   Files   |    |   Data   |
+                        +-----------+    +----------+
 ```
 
 ## Security Measures
