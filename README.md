@@ -24,10 +24,10 @@ A comprehensive Docker-based web infrastructure implementing WordPress, NGINX, M
                                            |
                      +-----------+---------+----------+-----------+
                      |           |         |          |           |
-               +-----v---+ +-----v---+ +---v-----+ +--v------+ +--v-----+
-               |  Redis  | |   FTP   | | Adminer | | Static  | |Custom  |
-               |  Cache  | |  Server | |         | | Website | |Service |
-               +---------+ +---------+ +---------+ +---------+ +--------+
+               +-----v---+ +-----v---+ +---v-----+ +--v------+ +--v--------+
+               |  Redis  | |   FTP   | | Adminer | | Static  | | Portainer |
+               |  Cache  | |  Server | |         | | Website | |           |
+               +---------+ +---------+ +---------+ +---------+ +-----------+
 
 
                Volumes +------+----------------+
@@ -188,15 +188,9 @@ graph TD
 
 Docker uses a layered file system called Union File System (UnionFS) to efficiently create, store, and distribute container images. Each instruction in a Dockerfile creates a new layer, and Docker caches these layers to speed up builds and reduce storage requirements.
 
-
-
-
-
 # Understanding Docker Architecture
 
 Docker is built on a **client-server architecture** that enables the development, deployment, and management of containerized applications. It consists of several key components, each playing a specific role in how containers are created, run, and managed.
-
----
 
 ## Docker Engine
 
@@ -233,6 +227,14 @@ The **Docker Daemon** is a background process that runs on the host machine. It 
 
 ---
 
+## Compose
+
+---
+
+## Buildkit
+
+---
+
 ## containerd (High-Level Container Runtime)
 
 `containerd` is an **industry-standard container runtime** that manages the complete container lifecycle, including:
@@ -241,7 +243,14 @@ The **Docker Daemon** is a background process that runs on the host machine. It 
 - Starting and stopping containers.
 - Handling storage and networking.
 
-Docker uses `containerd` as an intermediate layer between the **Docker Daemon** and the low-level runtime.
+Docker uses `containerd` as an intermediate layer between the **Docker Daemon** and the
+low-level runtime.
+
+---
+
+## shims
+
+---
 
 ## runc (Low-Level OCI Runtime)
 
@@ -254,6 +263,8 @@ Docker uses `containerd` as an intermediate layer between the **Docker Daemon** 
 - Uses **cgroups (Control Groups)** to manage and limit resource allocation (CPU, memory, I/O, etc.).
 - Isolated from Docker itself, making it portable across different container management systems.
 
+---
+
 ## Docker Registry
 
 A **Docker Registry** is a service for storing and distributing Docker images.
@@ -265,8 +276,7 @@ A **Docker Registry** is a service for storing and distributing Docker images.
 
 Docker pulls images from the registry when running containers, and developers can push custom images to a registry.
 
-## Buildkit
-
+---
 
 ## Storage
 
@@ -299,6 +309,8 @@ By default, all files created inside a container are stored on a writable contai
 
 The **dockerd** daemon handles high-level volume management, while **containerd** interacts with storage drivers to manage the container’s filesystem.
 
+---
+
 ## Networking
 
 Docker creates isolated network stacks for containers using network namespaces a container has no information about what kind of network it's attached to, or whether their peers are also Docker workloads or not. A container only sees a network interface with an IP address, a gateway, a routing table, DNS services, and other networking details. That is, unless the container uses the none network driver.
@@ -317,21 +329,6 @@ Different **network drivers** Docker offers:
 dockerd **(the Docker daemon)** is responsible for setting up and managing container networking using network drivers and Linux networking features.
 
 ---
-
-Docker simplifies the deployment of applications by packaging them into portable, isolated containers. Understanding its architecture **client, daemon, runtime, registry, objects, storage, and networking** helps developers manage and optimize containerized environments effectively.
-
-Additionally, Docker's reliance on **cgroups, namespaces, and union file systems** ensures efficient resource management, process isolation, and storage optimization.
-
-
-
-
-
-
-
-
-
-
-
 
 ## Understanding PID 1 in Docker Containers
 
@@ -369,7 +366,7 @@ PID 1 has several important responsibilities:
 
 Problems can arise when using a process not designed to be PID 1, such as a shell script or application without proper signal handling. This is why many Docker images use specialized init systems like `tini` or `dumb-init` to handle these responsibilities correctly.
 
-## The Container Lifecycle
+## Understanding Container Lifecycle
 
 ```mermaid
 stateDiagram-v2
@@ -404,17 +401,19 @@ stateDiagram-v2
 
 ```
 
-## How Docker Works: Step-by-Step
+## Understanding how Docker Works: Step-by-Step
 
 Now let's me walk you through the complete process of how Docker works:
 
-1. **Building an Image**:
+1. **Writing a dockerfile**
+
+2. **Building an Image**:
    - When you run `docker build`, the Docker client sends your build context to the Docker daemon.
    - The daemon executes each instruction in the Dockerfile using Buildkit, creating a new layer for each instruction.
    - every Layer built is cached and stored as (read-only) layer for efficiency, so unchanged layers don't need to be rebuilt over and over.
    - The result is a stack of layers that form a Docker image.
 
-2. **Running a Container**:
+3. **Running a Container**:
    - When you run `docker run`, the Docker client tells the daemon to create a new container from a specific image.
    - The daemon asks containerd to create the container.
    - containerd uses runc to create the container with the appropriate namespace and cgroup configurations.
@@ -423,35 +422,21 @@ Now let's me walk you through the complete process of how Docker works:
    - Various namespaces (PID, mount, network, etc.) are set up to isolate the container.
    - Resource limits are applied via cgroups.
 
-3. **Container Communication**:
+4. **Container Communication**:
    - Containers can communicate with each other through Docker networks.
    - Port mapping allows external access to container services.
    - Volumes or bind mounts provide persistent storage.
 
-4. **Container Termination**:
+5. **Container Termination**:
    - When a container is stopped, the PID 1 process receives a SIGTERM signal.
    - If the process doesn't exit within a grace period, it receives a SIGKILL.
    - The container's runtime resources are released, but the writable layer is preserved until the container is removed.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+---
 
 ## Best Practices for Docker Containers
 
-### Process Design
+<!-- ### Process Design
 
 1. **Use proper init systems** for PID 1 to handle signals and reap zombie processes.
 2. **One process per container** as a general rule (with exceptions for tightly coupled processes).
@@ -493,20 +478,11 @@ Now let's me walk you through the complete process of how Docker works:
    - Modular Dockerfile structure
    - Clear documentation
    - Consistent naming conventions
-   - Version control best practices
+   - Version control best practices -->
 
+---
 
-
-
-
-
-
-
-
-
-
-
-## Summary
+## In summary
 
 Docker's containerization technology revolutionized application deployment by leveraging Linux kernel features like namespaces and cgroups. These technologies allow Docker to create isolated, portable, and efficient containers that share the host kernel while maintaining security and resource boundaries.
 
