@@ -248,7 +248,7 @@ low-level runtime.
 
 ---
 
-## shims
+## containerd-shims
 
 ---
 
