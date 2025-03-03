@@ -214,11 +214,66 @@ The **Docker Client** is the main way users interact with Docker. It provides a 
 
 The **Docker Daemon** is a background process that runs on the host machine. It listens for API requests and manages Docker objects, such as containers, images, networks, and volumes.
 
-#### Key responsibilities
+# Docker Daemon controls 
 
-- Builds, stores and runs containers.
-- Manages images, volumes, and networks.
-- Handles interactions with the **container runtime**.
+---
+
+## Buildkit
+
+BuildKit is Docker’s modern image-building engine that improves performance, efficiency, and security compared to the legacy builder. It optimizes builds by running steps in parallel, caching dependencies, and reducing unnecessary layers it.
+
+- **Optimized Image Building** – Executes build steps efficiently with parallel processing.
+- **Layer Caching** – Reuses unchanged layers to speed up builds.
+- **Automatic Garbage Collection** – Removes unused build cache to free up space.
+- **Security Enhancements** – Supports rootless builds and better secrets management.
+
+### How It Works
+
+1. **Docker CLI** sends a `docker build` command.
+2. **dockerd** delegates the build process to **BuildKit** (if enabled).
+3. **BuildKit** processes the **Dockerfile**, running steps in parallel where possible.
+4. **BuildKit** caches image layers to speed up future builds.
+5. **The final image** is sent to **containerd** for storage and management.
+
+### Related Components
+
+- **Docker CLI** – Triggers `docker build` commands.
+- **Docker Daemon (`dockerd`)** – Delegates build tasks to BuildKit which will pull a base image with containerd and layer it to a final image.
+- **containerd** – Will stores the final built image.
+
+### Enabling BuildKit
+
+To enable BuildKit, set the environment variable:
+
+```bash
+export DOCKER_BUILDKIT=1
+```
+
+---
+
+## **containerd (High-Level Container Runtime)**
+
+`containerd` is an industry-standard, high-level container runtime responsible for managing the entire container lifecycle, from image pulling to execution. It acts as an **intermediate layer** between the Docker Daemon (`dockerd`) and the low-level runtime (`runc`).
+
+- **Image Management** – Pulls, stores, and manages container images from registries.
+- **Container Lifecycle Management** – Creates, starts, stops, and deletes containers.
+- **Storage Handling** – Manages container filesystems and volumes.
+- **Networking** – Interfaces with network plugins to connect containers.
+- **Delegation to runc** – Calls `runc` to execute containers according to the OCI specification.
+
+### How It Works
+
+1. **dockerd** sends a request to `containerd` (e.g., create or run a container).
+2. `containerd` pulls the required image and prepares the container’s root filesystem.
+3. It invokes `runc` to start the container using Linux namespaces and cgroups.
+4. Once running, `containerd-shim` keeps the container active even if `containerd` restarts.
+
+### Related Components
+
+- **dockerd** – The Docker Daemon that communicates with `containerd`.
+- **runc** – Executes containerized processes.
+- **containerd-shim** – Ensures containers remain running after `containerd` exits.
+- **Docker Registries** – `containerd` pulls images from sources like Docker Hub.
 
 ---
 
@@ -235,41 +290,52 @@ containerd pulls images from the registry when running containers, and developer
 
 ---
 
-## Buildkit
+## **runc (Low-Level OCI Runtime)**
 
----
+`runc` is a lightweight, low-level container runtime that creates and runs containers according to the **Open Container Initiative (OCI) specification**. It is responsible for interacting with the host OS to set up containerized processes using Linux namespaces and control groups (cgroups).
 
-## Compose
+- **Container Execution** – Directly runs containerized processes.
+- **Process Isolation** – Uses Linux namespaces to isolate container processes.
+- **Resource Management** – Implements cgroups to control CPU, memory, and I/O usage.
+- **Standard Compliance** – Follows OCI runtime specifications for portability across different container systems.
 
----
+### How It Works
 
-## containerd (High-Level Container Runtime)
+1. **containerd** requests `runc` to start a new container.
+2. `runc` sets up Linux namespaces and cgroups to isolate the process.
+3. It executes the containerized application in the defined environment.
+4. After launching, `runc` **exits**, leaving the container running under **containerd-shim**.
 
-`containerd` is an **industry-standard container runtime** that manages the complete container lifecycle, including:
+### Related Components
 
-- Pulling images from a registry.
-- Starting and stopping containers.
-- Handling storage and networking.
-
-Docker uses `containerd` as an intermediate layer between the **Docker Daemon** and the
-low-level runtime.
+- **containerd** – Manages the lifecycle of containers and invokes `runc` to start them.
+- **containerd-shim** – Keeps containers running after `runc` exits.
+- **Linux Kernel** – Provides the necessary namespace and cgroup functionality.
 
 ---
 
 ## containerd-shims
 
----
+`containerd-shim` is a lightweight process that allows containers to run independently of `containerd`. It ensures that a container remains running even if `containerd` crashes or is restarted. Each running container has its own shim process.
 
-## runc (Low-Level OCI Runtime)
+- **Keeps Containers Running** – Ensures containers stay alive even if `containerd` stops.
+- **Manages Container Lifecycle** – Acts as a middle layer between `containerd` and `runc`.
+- **Handles I/O Streams** – Redirects `stdin`, `stdout`, and `stderr` between the container and the Docker CLI.
 
-`runc` is the **lightweight, low-level container runtime** that actually runs containers according to the **Open Container Initiative (OCI) specification**.
+### How It Works
 
-### Key role
+1. **containerd** starts a container using `runc`.
+2. Once the container starts, **containerd-shim** takes over and detaches the container from `containerd`.
+3. The shim **keeps the container process running** and manages communication with the Docker CLI.
+4. If `containerd` restarts, the shim ensures that running containers are **not affected**.
 
-- Directly interfaces with the host operating system to start and stop containers.
-- Uses **Linux Namespaces** to provide process isolation (e.g., PID, NET, IPC, UTS, MNT, and USER namespaces).
-- Uses **cgroups (Control Groups)** to manage and limit resource allocation (CPU, memory, I/O, etc.).
-- Isolated from Docker itself, making it portable across different container management systems.
+### Related Components
+
+- **containerd** – Creates and delegates container management to the shim.
+- **runc** – Executes the container process.
+- **Docker CLI** – Interacts with running containers through the shim.
+
+Each running container will have its own `containerd-shim` process.
 
 ---
 
@@ -322,6 +388,34 @@ Different **network drivers** Docker offers:
 ### Networking Management
 
 The **dockerd** is responsible for setting up and managing container networking using **libnetwork** which implements networking, creates networks, assigns IPs ...
+
+---
+
+## **Compose**
+
+**Docker Compose** is a tool that simplifies the management of multi-container Docker applications. It allows users to define and run complex applications with multiple services using a single configuration file, typically `docker-compose.yml`.
+
+- **Multi-Container Management** – Defines and manages multi-container applications.
+- **Configuration as Code** – Uses `docker-compose.yml` to specify services, networks, and volumes in a declarative format.
+- **Orchestration** – Starts, stops, and scales multi-container applications as a single unit.
+- **Environment Variables** – Supports the use of environment variables for configuration flexibility.
+- **Service Dependency Management** – Allows defining service dependencies and startup order.
+
+### **Example `docker-compose.yml`**
+
+```yaml
+version: '3.8'
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: example
+```
 
 ---
 
@@ -400,15 +494,13 @@ stateDiagram-v2
 
 Now let's me walk you through the complete process of how Docker works:
 
-1. **Writing a dockerfile**
-
-2. **Building an Image**:
+1. **Building an Image**:
    - When you run `docker build`, the Docker client sends your build context to the Docker daemon.
    - The daemon executes each instruction in the Dockerfile using Buildkit, creating a new layer for each instruction.
    - every Layer built is cached and stored as (read-only) layer for efficiency, so unchanged layers don't need to be rebuilt over and over.
-   - The result is a stack of layers that form a Docker image.
+   - The result is a stack of layers that form a Docker image which is passed to containerd for storage and managment.
 
-3. **Running a Container**:
+2. **Running a Container**:
    - When you run `docker run`, the Docker client tells the daemon to create a new container from a specific image.
    - The daemon asks containerd to create the container.
    - containerd uses runc to create the container with the appropriate namespace and cgroup configurations.
@@ -417,70 +509,57 @@ Now let's me walk you through the complete process of how Docker works:
    - Various namespaces (PID, mount, network, etc.) are set up to isolate the container.
    - Resource limits are applied via cgroups.
 
-4. **Container Communication**:
+3. **Container Communication**:
    - Containers can communicate with each other through Docker networks.
    - Port mapping allows external access to container services.
    - Volumes or bind mounts provide persistent storage.
 
-5. **Container Termination**:
+4. **Container Termination**:
    - When a container is stopped, the PID 1 process receives a SIGTERM signal.
    - If the process doesn't exit within a grace period, it receives a SIGKILL.
    - The container's runtime resources are released, but the writable layer is preserved until the container is removed.
 
 ---
 
-## Best Practices for Docker Containers
+## **Best Practices**
 
-<!-- ### Process Design
+### **In Docker**
 
-1. **Use proper init systems** for PID 1 to handle signals and reap zombie processes.
-2. **One process per container** as a general rule (with exceptions for tightly coupled processes).
-3. **Non-root users** whenever possible to reduce security risks.
+1. **Use Multi-Stage Builds** – Reduce the size of the final image by building in stages.
+2. **Minimize Layer Count** – Combine commands in Dockerfile to reduce image layers.
+3. **Implement Proper Caching** – Leverage Docker’s caching mechanisms for faster builds.
+4. **Clean Up Unnecessary Files** – Remove temporary or build dependencies after the build process.
 
-### Resource Management
+### **In Container Design**
 
-1. **Set resource limits** using Docker's `--memory`, `--cpus` flags to prevent resource contention.
-2. **Use health checks** to monitor container health and enable automatic recovery.
-3. **Implement graceful shutdowns** to allow proper cleanup when containers stop.
+1. **Follow the Single Responsibility Principle** – Each container should run a single service or process.
+2. **Avoid Unnecessary Processes** – Keep containers lightweight by avoiding extra processes.
+3. **Proper PID 1 Handling** – Ensure PID 1 is handled correctly, with a proper init system to manage signals and zombie processes.
+4. **Clean Shutdown Handling** – Implement graceful shutdowns to clean up resources when the container stops.
 
-## Best Practices
+### **In Security**
 
-1. **In Docker**
-   - Use multi-stage builds where appropriate
-   - Minimize layer count
-   - Implement proper caching
-   - Clean up unnecessary files
+1. **Use Minimal Base Images** – Choose lean base images to reduce attack surfaces.
+2. **Apply Regular Security Updates** – Ensure that your images are up to date with security patches.
+3. **Proper Permission Management** – Avoid running containers as root; use non-root users whenever possible.
+4. **Network Isolation** – Isolate containers from each other and the host to minimize security risks.
 
-2. **In Container Design**
-   - Single responsibility principle
-   - No unnecessary processes
-   - Proper PID 1 handling
-   - Clean shutdown handling
+### **In Resource Management**
 
-3. **In Security**
-   - Minimal base images
-   - Regular security updates
-   - Proper permission management
-   - Network isolation
+1. **Use Volume Mapping** – Map host volumes to containers to persist data outside containers.
+2. **Implement Container Restart Policies** – Define restart policies for containers to handle failures.
+3. **Set Resource Limits** – Use `--memory` and `--cpus` flags to prevent resource contention.
+4. **Use Health Checks** – Monitor container health and enable automatic recovery if needed.
 
-4. **In Resource Management**
-   - Volume mapping
-   - Container restart policies
-   - Resource limits
-   - Health checks
+### **In Code Organization**
 
-5. **In Code Organization**
-   - Modular Dockerfile structure
-   - Clear documentation
-   - Consistent naming conventions
-   - Version control best practices -->
+1. **Modular Dockerfile Structure** – Organize Dockerfile into logical steps for easier maintenance.
+2. **Clear Documentation** – Document your Dockerfile and container setup for better understanding.
+3. **Consistent Naming Conventions** – Use clear and consistent names for images, tags, and container names.
+4. **Version Control Best Practices** – Keep your Dockerfiles and related scripts under version control for tracking changes.
 
 ---
 
 ## In summary
 
-Docker's containerization technology revolutionized application deployment by leveraging Linux kernel features like namespaces and cgroups. These technologies allow Docker to create isolated, portable, and efficient containers that share the host kernel while maintaining security and resource boundaries.
-
-The layered approach to image building, combined with a client-server architecture and standardized container runtime, makes Docker a powerful platform for developing, shipping, and running applications in any environment that supports the Docker Engine.
-
-Understanding the underlying technologies and concepts, especially namespaces, cgroups, UnionFS, and the importance of proper PID 1 handling, is crucial for effectively designing and managing containerized applications.
+Docker revolutionized application deployment by using Linux kernel features like namespaces and cgroups to create isolated, portable containers. Its layered image building, client-server architecture, and standardized runtime make Docker a powerful platform for developing and running applications. Understanding key concepts like namespaces, cgroups, UnionFS, and PID 1 handling is essential for managing containerized applications effectively.
