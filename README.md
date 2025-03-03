@@ -10,7 +10,7 @@ A comprehensive Docker-based web infrastructure implementing WordPress, NGINX, M
                                 |     Infrastructure    |
                                 +-----------------------+
                                             |
-                              +-------------+-------------+
+               Mandatory +----+-------------+-------------+
                               |             |             |
                        +------v------+ +----v-------+ +---v------+
                        |   NGINX     | | WordPress  | | MariaDB  |
@@ -18,24 +18,19 @@ A comprehensive Docker-based web infrastructure implementing WordPress, NGINX, M
                        +------+------+ +---+--------+ +---+------+
                               |            |              |
                               |            |              |
-                    +---------v------------v--------------v-------+
-                    |              Docker Network                 |
-                    +---------------------------------------------+
-                                           |
-                     +-----------+---------+----------+-----------+
+          Bonus +----+--------+--+---------+----------+---+-------+
                      |           |         |          |           |
                +-----v---+ +-----v---+ +---v-----+ +--v------+ +--v--------+
                |  Redis  | |   FTP   | | Adminer | | Static  | | Portainer |
                |  Cache  | |  Server | |         | | Website | |           |
                +---------+ +---------+ +---------+ +---------+ +-----------+
 
-
-               Volumes +------+----------------+
-                              |                |
-                        +-----v-----+    +-----v----+
-                        | WordPress |    | Database |
-                        |   Files   |    |   Data   |
-                        +-----------+    +----------+
+                     Volumes +------+----------------+
+                                    |                |
+                              +-----v-----+    +-----v----+
+                              | WordPress |    | Database |
+                              |   Files   |    |   Data   |
+                              +-----------+    +----------+
 ```
 
 ## Security Measures
@@ -227,11 +222,24 @@ The **Docker Daemon** is a background process that runs on the host machine. It 
 
 ---
 
-## Compose
+## Docker Registry
+
+A **Docker Registry** is a service for storing and distributing Docker images.
+
+### Types of registries
+
+- **Public Registry:** Docker Hub (default), where anyone can upload and download images.
+- **Private Registry:** Self-hosted registries or cloud-based solutions like AWS Elastic Container Registry (ECR), Google Container Registry (GCR), or Azure Container Registry (ACR).
+
+containerd pulls images from the registry when running containers, and developers can push custom images to a registry.
 
 ---
 
 ## Buildkit
+
+---
+
+## Compose
 
 ---
 
@@ -265,26 +273,13 @@ low-level runtime.
 
 ---
 
-## Docker Registry
-
-A **Docker Registry** is a service for storing and distributing Docker images.
-
-### Types of registries
-
-- **Public Registry:** Docker Hub (default), where anyone can upload and download images.
-- **Private Registry:** Self-hosted registries or cloud-based solutions like AWS Elastic Container Registry (ECR), Google Container Registry (GCR), or Azure Container Registry (ACR).
-
-Docker pulls images from the registry when running containers, and developers can push custom images to a registry.
-
----
-
 ## Storage
 
 By default, all files created inside a container are stored on a writable container layer that sits on top of the read-only, immutable image layers.
 
 ### Types of Storage in Docker
 
-#### Ephemeral Storage (Temporary, lost when the container stops)
+#### Ephemeral Storage (Temporary)
 
 - **Container Layer (Union Filesystem)**
   - Every running container has a writable layer that stores changes, but it is **lost when the container is deleted**.
@@ -295,7 +290,7 @@ By default, all files created inside a container are stored on a writable contai
   - Used for **inter-process communication (IPC)**, **not for storage**.
   - Data exists only while being read/written.
 
-#### Persistent Storage (Data persists even after container restarts)
+#### Persistent Storage (Data persists even after container is deleted)
 
 - **Volumes**
   - Managed by Docker (`docker volume create mydata`).
@@ -307,7 +302,7 @@ By default, all files created inside a container are stored on a writable contai
 
 ### Storage Management
 
-The **dockerd** daemon handles high-level volume management, while **containerd** interacts with storage drivers to manage the container’s filesystem.
+The **dockerd** handles high-level volume management via client, while **containerd** interacts with storage drivers to manage the container’s filesystem internally.
 
 ---
 
@@ -326,7 +321,7 @@ Different **network drivers** Docker offers:
 
 ### Networking Management
 
-dockerd **(the Docker daemon)** is responsible for setting up and managing container networking using network drivers and Linux networking features.
+The **dockerd** is responsible for setting up and managing container networking using **libnetwork** which implements networking, creates networks, assigns IPs ...
 
 ---
 
