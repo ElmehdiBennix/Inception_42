@@ -1,6 +1,6 @@
 # Inception - Docker Infrastructure Project
 
-A comprehensive Docker-based web infrastructure implementing WordPress, NGINX, MariaDB, and additional services with a focus on security, modularity, and best practices.
+A comprehensive Docker-based web infrastructure implementing LEMP stack with additional services and a focus on security, modularity, and best practices.
 
 ## Project Architecture
 
@@ -33,23 +33,6 @@ A comprehensive Docker-based web infrastructure implementing WordPress, NGINX, M
                               +-----------+    +----------+
 ```
 
-## Security Measures
-
-1. Environment Variables
-   - Stored in .env file
-   - No hardcoded credentials
-   - Secure variable passing
-
-2. Network Isolation
-   - Custom Docker network
-   - Internal service communication
-   - Limited external access
-
-3. TLS Implementation
-   - TLSv1.2/1.3 only
-   - Strong cipher suites
-   - Proper certificate management
-
 ## Setup Instructions
 
 1. Clone the repository:
@@ -76,6 +59,25 @@ A comprehensive Docker-based web infrastructure implementing WordPress, NGINX, M
    # remove the project from docker
    make fclean
    ```
+
+## Security Measures
+
+1. Environment Variables
+   - Stored in .env file
+   - No hardcoded credentials
+   - Secure variable passing
+
+2. Network Isolation
+   - Custom Docker network
+   - Internal service communication
+   - Limited external access
+
+3. TLS Implementation
+   - TLSv1.2/1.3 only
+   - Strong cipher suites
+   - Proper certificate management
+
+---
 
 ## Understanding Docker and Container Architecture
 
