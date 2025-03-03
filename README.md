@@ -145,6 +145,104 @@ Namespaces provide isolation for system resources, making processes in a contain
 5. **IPC Namespace**: Isolates interprocess communication resources.
 6. **User Namespace**: Isolates user and group IDs.
 
+```mermaid
+graph TD
+    subgraph "Host System"
+        HOST["Host OS Kernel"]
+
+        subgraph "Container 1"
+            C1["Container Process"]
+
+            C1_PID["PID Namespace
+            Process IDs starting from 1
+            Own process tree"]
+
+            C1_NET["Network Namespace
+            Isolated network interfaces
+            Own IP addresses, routing tables"]
+
+            C1_MNT["Mount Namespace
+            Private filesystem view
+            Container-specific mounts"]
+
+            C1_UTS["UTS Namespace
+            Own hostname
+            Domain name"]
+
+            C1_IPC["IPC Namespace
+            Isolated interprocess
+            communication resources"]
+
+            C1_USER["User Namespace
+            UID/GID mapping between
+            container and host"]
+
+            C1 --- C1_PID
+            C1 --- C1_NET
+            C1 --- C1_MNT
+            C1 --- C1_UTS
+            C1 --- C1_IPC
+            C1 --- C1_USER
+        end
+
+        subgraph "Container 2"
+            C2["Container Process"]
+
+            C2_PID["PID Namespace
+            Process IDs starting from 1
+            Own process tree"]
+
+            C2_NET["Network Namespace
+            Isolated network interfaces
+            Own IP addresses, routing tables"]
+
+            C2_MNT["Mount Namespace
+            Private filesystem view
+            Container-specific mounts"]
+
+            C2_UTS["UTS Namespace
+            Own hostname
+            Domain name"]
+
+            C2_IPC["IPC Namespace
+            Isolated interprocess
+            communication resources"]
+
+            C2_USER["User Namespace
+            UID/GID mapping between
+            container and host"]
+
+            C2 --- C2_PID
+            C2 --- C2_NET
+            C2 --- C2_MNT
+            C2 --- C2_UTS
+            C2 --- C2_IPC
+            C2 --- C2_USER
+        end
+
+        HOST --- C1
+        HOST --- C2
+    end
+
+    style HOST fill:#f5f5f5,stroke:#333,stroke-width:2px
+    style C1 fill:#e6f7ff,stroke:#1890ff,stroke-width:2px
+    style C2 fill:#f6ffed,stroke:#52c41a,stroke-width:2px
+
+    style C1_PID fill:#e6f7ff,stroke:#1890ff,stroke-width:1px
+    style C1_NET fill:#e6f7ff,stroke:#1890ff,stroke-width:1px
+    style C1_MNT fill:#e6f7ff,stroke:#1890ff,stroke-width:1px
+    style C1_UTS fill:#e6f7ff,stroke:#1890ff,stroke-width:1px
+    style C1_IPC fill:#e6f7ff,stroke:#1890ff,stroke-width:1px
+    style C1_USER fill:#e6f7ff,stroke:#1890ff,stroke-width:1px
+
+    style C2_PID fill:#f6ffed,stroke:#52c41a,stroke-width:1px
+    style C2_NET fill:#f6ffed,stroke:#52c41a,stroke-width:1px
+    style C2_MNT fill:#f6ffed,stroke:#52c41a,stroke-width:1px
+    style C2_UTS fill:#f6ffed,stroke:#52c41a,stroke-width:1px
+    style C2_IPC fill:#f6ffed,stroke:#52c41a,stroke-width:1px
+    style C2_USER fill:#f6ffed,stroke:#52c41a,stroke-width:1px
+```
+
 ### 2. Control Groups (cgroups)
 
 Control Groups allow Docker to limit and isolate resource usage (CPU, memory, disk I/O, network, etc.) for each container. This prevents a single container from monopolizing resources and enables Docker to provide predictable performance.
@@ -183,38 +281,79 @@ graph TD
 
 Docker uses a layered file system called Union File System (UnionFS) to efficiently create, store, and distribute container images. Each instruction in a Dockerfile creates a new layer, and Docker caches these layers to speed up builds and reduce storage requirements.
 
+```mermaid
+graph TD
+    subgraph "Docker Image Layers"
+        A[Base Image Layer] -->|Read-Only| B[Application Layer]
+        B -->|Read-Only| C[Configuration Layer]
+        C -->|Read-Only| D[Final Image Layer]
+
+        D -->|Container Created| E[Container Writable Layer]
+
+        style A fill:#f5f5f5,stroke:#333,stroke-width:2px
+        style B fill:#f5f5f5,stroke:#333,stroke-width:2px
+        style C fill:#f5f5f5,stroke:#333,stroke-width:2px
+        style D fill:#f5f5f5,stroke:#333,stroke-width:2px
+        style E fill:#e6f7ff,stroke:#1890ff,stroke-width:2px,stroke-dasharray: 5 5
+    end
+
+    subgraph "File Operations"
+        F["Read: Searches through layers<br>from top to bottom"] -.-> E
+        F -.-> D
+        F -.-> C
+        F -.-> B
+        F -.-> A
+
+        G["Write: Only affects<br>Container Writable Layer"] -.-> E
+
+        H["Delete: Creates a 'whiteout' file<br>in Container Writable Layer"] -.-> E
+    end
+
+    I["Benefits:<br>- Efficient storage<br>- Faster builds<br>- Layer caching<br>- Image sharing"] -.-> A
+    I -.-> B
+    I -.-> C
+    I -.-> D
+```
+
+---
+
 # Understanding Docker Architecture
 
 Docker is built on a **client-server architecture** that enables the development, deployment, and management of containerized applications. It consists of several key components, each playing a specific role in how containers are created, run, and managed.
 
-## Docker Engine
+# Docker Engine
 
 The **Docker Engine** is the core component that runs Docker. It consists of:
 
+- **CLI tools**
 - **Docker Daemon (`dockerd`)**
-- **REST API** for interacting with the daemon
-- **CLI tools** for managing containers
+- **REST API**
+- **BuildKit**
+- **Containerd**
+- **Runc**
 
 Docker Engine is available in two versions:
 
 - **Community Edition (CE):** Free and open-source for individual developers.
 - **Enterprise Edition (EE):** A paid version with advanced security and management features.
 
-### 1. Docker Client
+---
+
+## Docker Client (CLI)
 
 The **Docker Client** is the main way users interact with Docker. It provides a **command-line interface (CLI)** (`docker`) that sends commands to the Docker Daemon via REST APIs.
 
-#### Key features
+### Key features
 
 - Executes commands like `docker run`, `docker build`, `docker ps`, etc.
 - Can communicate with remote Docker daemons.
 - Supports multiple clients connecting to the same daemon.
 
-### 2. Docker Daemon (`dockerd`)
+---
+
+## Docker Daemon (`dockerd`)
 
 The **Docker Daemon** is a background process that runs on the host machine. It listens for API requests and manages Docker objects, such as containers, images, networks, and volumes.
-
-# Docker Daemon controls 
 
 ---
 
