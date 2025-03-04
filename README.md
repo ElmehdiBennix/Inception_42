@@ -353,9 +353,46 @@ The **Docker Client** is the main way users interact with Docker. It provides a 
 
 ---
 
-## Docker Daemon (`dockerd`)
+## **Docker Daemon (`dockerd`)**
 
-The **Docker Daemon** is a background process that runs on the host machine. It listens for API requests and manages Docker objects, such as containers, images, networks, and volumes.
+The **Docker Daemon (`dockerd`)** is the core service that manages Docker containers, images, networks, and volumes. It acts as the central orchestrator, handling API requests, container lifecycle management, and communication with lower-level container runtimes.
+
+### **How `dockerd` Works**
+
+1. Listens for API requests from the `docker` CLI or remote clients.
+2. Delegates container lifecycle tasks to **containerd**.
+3. Uses **BuildKit** for building images.
+4. Manages networking and storage using its internal components.
+5. Communicates with the **OCI runtime (`runc`)** to execute containers.
+
+### **Relation to Other Components**
+
+- **containerd** – Manages the container lifecycle on behalf of `dockerd`.
+- **runc** – Executes containers at a low level according to OCI specifications.
+- **BuildKit** – Optimizes and accelerates image builds.
+- **containerd-shim** – Ensures containers remain running even if `containerd` exits.
+
+### **Running and Managing the Daemon**
+
+- Start Docker Daemon manually:
+
+  ```sh
+  sudo dockerd
+  ```
+
+- Check Docker Daemon status:
+
+  ```sh
+  systemctl status docker
+  ```
+
+- Restart the Docker Daemon:
+
+  ```sh
+  sudo systemctl restart docker
+  ```
+
+`dockerd` is the brain of the Docker system, coordinating all operations and enabling seamless containerized workflows.
 
 ---
 
